@@ -4,10 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/keyword-ranking")
 public class KeywordRankingController {
     
-    
+    @RequestMapping("/keyword-ranking")
     public String showKeywordRankingDashboard(){
         
         return "keyword-ranking";

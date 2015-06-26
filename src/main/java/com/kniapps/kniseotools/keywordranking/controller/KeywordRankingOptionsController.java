@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class KeywordRankingOptionsController {
 
     @RequestMapping("/keyword-ranking/options")
-    public String KeywordRankingOptionsController() {
+    public String afficher() {
         return "";
     }
     
