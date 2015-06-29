@@ -9,13 +9,15 @@
   <url>http://maven.apache.org</url>
     
   <dependencies>
+        
+        <!-- Needed minimal dependences -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
             <scope>compile</scope>
         </dependency>
-        
+                
         <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-webmvc</artifactId>
@@ -29,11 +31,26 @@
 	      	<scope>test</scope>
 	    </dependency>
 	    
-	     <dependency>
+	    <dependency>
 	        <groupId>commons-logging</groupId>
 	        <artifactId>commons-logging</artifactId>
 	        <version>1.1.1</version>
 		</dependency>
+		
+		<!-- JSTL -->	
+		<dependency>
+		      <groupId>javax.servlet</groupId>
+		      <artifactId>jstl</artifactId>
+		      <version>1.2</version>
+		</dependency>
+		
+		<!-- Tiles -->
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-extras</artifactId>
+			<version>3.0.5</version>
+		</dependency>
+	
 		
     </dependencies>
   

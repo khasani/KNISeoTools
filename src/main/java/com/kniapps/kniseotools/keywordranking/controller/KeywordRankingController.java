@@ -9,7 +9,8 @@ public class KeywordRankingController {
     @RequestMapping("/keyword-ranking")
     public String showKeywordRankingDashboard(){
         
-        return "keyword-ranking";
+        //return "keyword-ranking";
+        return "home";
     }
 
 }

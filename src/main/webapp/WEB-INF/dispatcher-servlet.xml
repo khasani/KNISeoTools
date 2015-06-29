@@ -10,11 +10,45 @@
     http://www.springframework.org/schema/mvc/spring-mvc.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
+    <!-- Scan for ressources -->
     <context:component-scan base-package="com.kniapps.kniseotools" />
     
+    <!-- Using Tiles -->
+    <bean   
+        class="org.springframework.web.servlet.view.UrlBasedViewResolver">  
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />  
+    </bean>
+    
+    <bean id="tilesConfigurer"  
+        class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">  
+        <property name="definitions">  
+            <list>  
+                <value>/WEB-INF/tiles.xml</value>  
+            </list>  
+        </property>  
+    </bean>
+    
+    <!-- Ressources Search -->
+    <bean
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>  JSTL -->
+        <property name="prefix">
+            <value>/WEB-INF/jsp/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
+    
+    <!-- Internalisation -->
     <bean id="messageSource"
         class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basename" value="classpath:messages" />
         <property name="defaultEncoding" value="UTF-8" />
     </bean>
+    
+    <!-- Resource files : CSS, JS... -->
+    <mvc:resources mapping="/resources/**" location="/resources/theme_default/" cache-period="31556926"/>
+    <mvc:annotation-driven />
+    
 </beans>

@@ -9,7 +9,7 @@ public class KeywordRankingWebsitesController {
     @RequestMapping("/keyword-ranking/websites")
     public String index(){
         
-        return "index";
+        return "";
     }
     
 }
