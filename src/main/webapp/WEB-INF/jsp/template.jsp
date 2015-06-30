@@ -25,7 +25,7 @@
     <link href="<c:url value="/resources/dist/css/sb-admin-2.css"/>" rel="stylesheet">
 
     <!-- Morris Charts CSS -->
-    <link href="<c:url value="/resources/bower_components/morrisjs/morris.csss"/>" rel="stylesheet">
+    <link href="<c:url value="/resources/bower_components/morrisjs/morris.css"/>" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="<c:url value="/resources/bower_components/font-awesome/css/font-awesome.min.css"/>" rel="stylesheet">
@@ -70,7 +70,6 @@
     <script src="<c:url value="/resources/bower_components/raphael/raphael-min.js"/>"></script>
 	<script src="<c:url value="/resources/bower_components/morrisjs/morris.min.js"/>"></script>
 	<script src="<c:url value="/resources/js/morris-data.js"/>"></script>
-	<script src="<c:url value="/resources/js/flot-data.js"/>"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="<c:url value="/resources/dist/js/sb-admin-2.js"/>"></script>
