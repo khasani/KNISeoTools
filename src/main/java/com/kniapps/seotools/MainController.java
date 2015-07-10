@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
 
     
-    @RequestMapping("/")
-    public String showDashboard(){
+    @RequestMapping({"/","/home"})
+    public String showHome(){
         
         //return "keyword-ranking";
         return "home";
@@ -19,6 +19,13 @@ public class MainController {
         
         //return "keyword-ranking";
         return "login";
+    }
+    
+    @RequestMapping("/login_")
+    public String showLogin_(){
+        
+        //return "keyword-ranking";
+        return "login_";
     }
     
 }
