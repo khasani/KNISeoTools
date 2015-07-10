@@ -18,7 +18,7 @@
 	  </definition>
 	  
 	  <!-- Test -->
-	  <definition name="test" template="/WEB-INF/jsp/test.jsp">
+	  <definition name="login" template="/WEB-INF/jsp/login.jsp">
 		    
 	  </definition>
 	  

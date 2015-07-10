@@ -6,11 +6,26 @@
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>Seo Tools - KNIApps</name>
-  <url>http://maven.apache.org</url>
+  <url>http://www.kniapps.com</url>
+  
+  <licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<id>khasani</id>
+			<name>Kreshnik HASANI</name>
+			<email>webmaster@kniapps.com</email>
+		</developer>
+	</developers>
     
   <dependencies>
         
-        <!-- Needed minimal dependences -->
+        <!-- Servlet -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -18,10 +33,18 @@
             <scope>compile</scope>
         </dependency>
                 
+        <!-- Spring MVC -->
         <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-webmvc</artifactId>
 		    <version>4.0.2.RELEASE</version>
+		</dependency>
+		
+		<!-- Spring + aspects -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>4.0.2.RELEASE</version>
 		</dependency>
 		
 		<dependency>
@@ -44,6 +67,27 @@
 		      <version>1.2</version>
 		</dependency>
 		
+		<!-- database pool -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+		
+		<!-- Hibernate ORM -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.2.11.Final</version>
+		</dependency>
+		
+		<!-- ORM integration, e.g Hibernate -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>4.0.2.RELEASE</version>
+		</dependency>
+		
 		<!-- Tiles -->
 		<dependency>
 		    <groupId>org.apache.tiles</groupId>
@@ -63,6 +107,40 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>3.2.7.RELEASE</version>
 		</dependency>
+		
+		<!-- Spring Security JSP Taglib -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>3.2.7.RELEASE</version>
+		</dependency>
+		
+		<!-- MySql Driver -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.30</version>
+		</dependency>
+		
+		<!-- logging, slf4j -->
+		<!--<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.6</version>
+		</dependency>
+ 
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.6</version>
+		</dependency>
+ 
+		  <dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.2</version>
+		</dependency>-->
+			
 	
 		
     </dependencies>

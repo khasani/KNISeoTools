@@ -1,4 +1,4 @@
-package com.kniapps.kniseotools.keywordranking.controller;
+package com.kniapps.seotools.keywordranking.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
