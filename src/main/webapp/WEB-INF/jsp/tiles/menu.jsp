@@ -10,13 +10,16 @@
                     <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> <spring:message code="menu.keyword.ranking.name"/><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li>
-                            <a href="flot.html">Websites</a>
+                            <a href="<c:url value="/keyword-ranking"/>">Dashboard</a>
                         </li>
                         <li>
-                            <a href="morris.html">Keywords</a>
+                            <a href="<c:url value="/keyword-ranking/websites"/>">Websites</a>
                         </li>
                         <li>
-                            <a href="morris.html">Options</a>
+                            <a href="<c:url value="/keyword-ranking/keywords"/>">Keywords</a>
+                        </li>
+                        <li>
+                            <a href="<c:url value="/keyword-ranking/options"/>">Options</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->

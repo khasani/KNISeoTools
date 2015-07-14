@@ -22,4 +22,24 @@
 		    <put-attribute name="body" value="/WEB-INF/jsp/home.jsp" />
 	  </definition>
 	  
+	  <!-- Keyword-ranking -->
+	  <definition name="keyword-ranking" extends="template">
+		    <put-attribute name="body" value="/WEB-INF/jsp/keyword-ranking/keyword-ranking.jsp" />
+	  </definition>
+	  
+	  <!-- keyword-ranking/websites -->
+	  <definition name="keyword-ranking/websites" extends="template">
+		    <put-attribute name="body" value="/WEB-INF/jsp/keyword-ranking/websites.jsp" />
+	  </definition>
+	  
+	  <!-- keyword-ranking/keywords -->
+	  <definition name="keyword-ranking/keywords" extends="template">
+		    <put-attribute name="body" value="/WEB-INF/jsp/keyword-ranking/keywords.jsp" />
+	  </definition>
+	  
+	  <!-- keyword-ranking/options -->
+	  <definition name="keyword-ranking/options" extends="template">
+		    <put-attribute name="body" value="/WEB-INF/jsp/keyword-ranking/options.jsp" />
+	  </definition>
+	  
 </tiles-definitions>

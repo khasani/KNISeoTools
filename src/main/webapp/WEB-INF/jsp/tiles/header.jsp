@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@page session="true"%>
 
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -9,7 +10,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">KNI Seo Tools</a>
+        <a class="navbar-brand" href="<c:url value="/"/>">KNI Seo Tools</a>
     </div>
     <!-- /.navbar-header -->
 
@@ -28,7 +29,12 @@
                 <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                 </li>
                 <li class="divider"></li>-->
-                <li><a href="login?logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+				<c:url value="/j_spring_security_logout" var="logoutUrl" />
+				<form action="${logoutUrl}" method="post" id="logoutForm">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				</form>
+                
+                <li><a href="#" onclick="$('form:first').submit();"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                 </li>
             </ul>
             <!-- /.dropdown-user -->
