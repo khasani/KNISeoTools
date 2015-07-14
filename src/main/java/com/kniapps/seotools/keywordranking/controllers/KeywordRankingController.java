@@ -10,7 +10,7 @@ public class KeywordRankingController {
     public String showKeywordRankingDashboard(){
         
         //return "keyword-ranking";
-        return "home";
+        return "keyword-ranking";
     }
 
 }

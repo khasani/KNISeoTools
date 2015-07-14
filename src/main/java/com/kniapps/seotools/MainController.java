@@ -21,11 +21,5 @@ public class MainController {
         return "login";
     }
     
-    @RequestMapping("/login_")
-    public String showLogin_(){
-        
-        //return "keyword-ranking";
-        return "login_";
-    }
     
 }

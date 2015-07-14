@@ -22,7 +22,7 @@
                     <!-- /.nav-second-level -->
                 </li>
                 
-                <li>
+                <!--  <li>
                     <a href="index.html" class="active"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                 </li>
                 <li>
@@ -34,9 +34,9 @@
                         <li>
                             <a href="morris.html">Morris.js Charts</a>
                         </li>
-                    </ul>
+                    </ul>-->
                     <!-- /.nav-second-level -->
-                </li>
+                <!--</li>
                 <li>
                     <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
                 </li>
@@ -66,7 +66,7 @@
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
-                </li>
+                <!--</li>
                 <li>
                     <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
@@ -93,10 +93,10 @@
                                 </li>
                             </ul>
                             <!-- /.nav-third-level -->
-                        </li>
-                    </ul>
+                        <!--</li>
+                    </ul>-->
                     <!-- /.nav-second-level -->
-                </li>
+                <!--</li>
                 <li>
                     <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
@@ -108,7 +108,7 @@
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
-                </li>
+                <!--</li>-->
             </ul>
         </div>
         <!-- /.sidebar-collapse -->
