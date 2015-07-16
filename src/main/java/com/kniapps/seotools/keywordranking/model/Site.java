@@ -1,0 +1,98 @@
+package com.kniapps.seotools.keywordranking.model;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="kr_sites")
+public class Site {
+    
+    private long id;
+    private String name;
+    private String url;
+    private boolean runDaily;
+    private Set<Note> notes = new HashSet<Note>(0);
+    private Set<Keyword> keywords = new HashSet<Keyword>(0);
+    
+    public Site() {
+    }
+    
+    public Site( String name, String url, boolean runDaily ) {
+        this.name = name;
+        this.url = url;
+        this.runDaily = runDaily;
+        this.notes = notes;
+        this.keywords = keywords;
+    }
+
+    @Id
+    @GeneratedValue
+    @Column(name="id")
+    public long getId() {
+        return id;
+    }
+
+    public void setId( long id ) {
+        this.id = id;
+    }
+
+    @Column
+    public String getName() {
+        return name;
+    }
+
+    public void setName( String name ) {
+        this.name = name;
+    }
+
+    @Column
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl( String url ) {
+        this.url = url;
+    }
+
+    @Column(name="run_daily")
+    public boolean isRunDaily() {
+        return runDaily;
+    }
+
+    public void setRunDaily( boolean runDaily ) {
+        this.runDaily = runDaily;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kr_sites")
+    public Set<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes( Set<Note> notes ) {
+        this.notes = notes;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kr_sites")
+    public Set<Keyword> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords( Set<Keyword> keywords ) {
+        this.keywords = keywords;
+    }
+    
+    
+    
+    
+
+    
+    
+}
