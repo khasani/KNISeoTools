@@ -16,7 +16,6 @@ public class SearchEngine {
 
     private long id;
     private String url;
-    private Site site;
     
     public SearchEngine() {
         
@@ -42,14 +41,7 @@ public class SearchEngine {
         this.url = url;
     }
 
-    @OneToOne(mappedBy = "kr_sites")
-    public Site getSite() {
-        return site;
-    }
-
-    public void setSite( Site site ) {
-        this.site = site;
-    }
+    
     
     
 

@@ -79,7 +79,7 @@ public class Run {
         this.site = site;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kr_positions")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pos")
     public Set<Position> getPositions() {
         return positions;
     }

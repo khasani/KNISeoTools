@@ -76,7 +76,7 @@ public class Site {
         this.runDaily = runDaily;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kr_notes")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
     public Set<Note> getNotes() {
         return notes;
     }
@@ -85,7 +85,7 @@ public class Site {
         this.notes = notes;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kr_keywords")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
     public Set<Keyword> getKeywords() {
         return keywords;
     }
@@ -95,7 +95,7 @@ public class Site {
     }
 
     @OneToOne
-    @JoinColumn(name = "kr_search_engine_id")
+    @JoinColumn(name="kr_search_engine_id", referencedColumnName="id")
     public SearchEngine getSearchEngine() {
         return searchEngine;
     }
