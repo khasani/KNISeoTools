@@ -32,7 +32,7 @@
 		</property>
 	</bean>
  
-	<bean id="userDao" class="com.kniapps.seotools.users.dao.UserDaoImpl">
+	<bean id="userDao" class="com.kniapps.seotools.users.dao.UserDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
  

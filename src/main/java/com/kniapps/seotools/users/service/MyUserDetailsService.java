@@ -14,13 +14,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.kniapps.seotools.users.dao.UserDao;
+import com.kniapps.seotools.users.dao.IUserDao;
 import com.kniapps.seotools.users.model.UserRole;
  
  
 public class MyUserDetailsService implements UserDetailsService {
  
-    private UserDao userDao;
+    private IUserDao userDao;
  
     public UserDetails loadUserByUsername(final String username) 
                throws UsernameNotFoundException {
@@ -56,11 +56,11 @@ public class MyUserDetailsService implements UserDetailsService {
         return Result;
     }
  
-    public UserDao getUserDao() {
+    public IUserDao getUserDao() {
         return userDao;
     }
  
-    public void setUserDao(UserDao userDao) {
+    public void setUserDao(IUserDao userDao) {
         this.userDao = userDao;
     }
  

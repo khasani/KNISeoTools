@@ -1,5 +1,5 @@
 package com.kniapps.seotools.keywordranking.dao;
 
-public interface NoteDao {
+public class NoteDao implements INoteDao {
 
 }
