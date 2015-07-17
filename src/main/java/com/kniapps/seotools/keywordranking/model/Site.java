@@ -8,8 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.kniapps.seotools.users.model.User;
 
 @Entity
 @Table(name="kr_sites")
@@ -21,6 +26,8 @@ public class Site {
     private boolean runDaily;
     private Set<Note> notes = new HashSet<Note>(0);
     private Set<Keyword> keywords = new HashSet<Keyword>(0);
+    private SearchEngine searchEngine;
+    private User user;
     
     public Site() {
     }
@@ -29,8 +36,6 @@ public class Site {
         this.name = name;
         this.url = url;
         this.runDaily = runDaily;
-        this.notes = notes;
-        this.keywords = keywords;
     }
 
     @Id
@@ -71,7 +76,7 @@ public class Site {
         this.runDaily = runDaily;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kr_sites")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kr_notes")
     public Set<Note> getNotes() {
         return notes;
     }
@@ -80,7 +85,7 @@ public class Site {
         this.notes = notes;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kr_sites")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kr_keywords")
     public Set<Keyword> getKeywords() {
         return keywords;
     }
@@ -88,6 +93,28 @@ public class Site {
     public void setKeywords( Set<Keyword> keywords ) {
         this.keywords = keywords;
     }
+
+    @OneToOne
+    @JoinColumn(name = "kr_search_engine_id")
+    public SearchEngine getSearchEngine() {
+        return searchEngine;
+    }
+
+    public void setSearchEngine( SearchEngine searchEngine ) {
+        this.searchEngine = searchEngine;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_username", nullable = false)
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser( User user ) {
+        this.user = user;
+    }
+    
+    
     
     
     

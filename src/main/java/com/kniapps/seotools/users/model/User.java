@@ -10,7 +10,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
  
 @Entity
-@Table(name = "users", catalog = "test")
+@Table(name = "users")
 public class User {
  
 	private String username;
@@ -37,8 +37,7 @@ public class User {
 	}
  
 	@Id
-	@Column(name = "username", unique = true, 
-		nullable = false, length = 45)
+	@Column(name = "username", unique = true, nullable = false, length = 45)
 	public String getUsername() {
 		return this.username;
 	}

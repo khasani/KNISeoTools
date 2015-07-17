@@ -1,6 +1,13 @@
 package com.kniapps.seotools.keywordranking.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,6 +24,9 @@ public class Position {
         
     }
 
+    @Id
+    @GeneratedValue
+    @Column(name="id")
     public long getId() {
         return id;
     }
@@ -25,6 +35,7 @@ public class Position {
         this.id = id;
     }
 
+    @Column
     public int getPos() {
         return pos;
     }
@@ -33,6 +44,7 @@ public class Position {
         this.pos = pos;
     }
 
+    @Column
     public String getUrl() {
         return url;
     }
@@ -41,6 +53,8 @@ public class Position {
         this.url = url;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "kr_run_id", nullable = false)
     public Run getRun() {
         return run;
     }
@@ -49,6 +63,8 @@ public class Position {
         this.run = run;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "kr_keyword_id", nullable = false)
     public Keyword getKeyword() {
         return keyword;
     }

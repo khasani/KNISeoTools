@@ -1,6 +1,8 @@
 package com.kniapps.seotools.keywordranking.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,25 +11,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="kr_notes")
-public class Note {
+@Table(name="kr_runs")
+public class Run {
 
     private long id;
     private Date date;
-    private String description;
+    private int indexedPages;
+    private int pr;
     private Site site;
+    private Set<Position> positions = new HashSet<Position>(0);
     
-    public Note() {
-    }
-    
-    public Note( Date date, String description ) {
-        this.date = date;
-        this.description = description;
+    public Run() {
+       
     }
 
     @Id
@@ -41,7 +42,7 @@ public class Note {
         this.id = id;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(value=TemporalType.TIMESTAMP)
     public Date getDate() {
         return date;
     }
@@ -50,13 +51,22 @@ public class Note {
         this.date = date;
     }
 
-    @Column
-    public String getDescription() {
-        return description;
+    @Column(name="indexed_pages")
+    public int getIndexedPages() {
+        return indexedPages;
     }
 
-    public void setDescription( String description ) {
-        this.description = description;
+    public void setIndexedPages( int indexedPages ) {
+        this.indexedPages = indexedPages;
+    }
+
+    @Column
+    public int getPr() {
+        return pr;
+    }
+
+    public void setPr( int pr ) {
+        this.pr = pr;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -68,9 +78,16 @@ public class Note {
     public void setSite( Site site ) {
         this.site = site;
     }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kr_positions")
+    public Set<Position> getPositions() {
+        return positions;
+    }
+
+    public void setPositions( Set<Position> positions ) {
+        this.positions = positions;
+    }
     
     
 
-    
-    
 }
