@@ -1,10 +1,12 @@
-package com.kniapps.seotools.users.service;
+package com.kniapps.seotools.service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
  
+
+
 
 
 import org.springframework.security.core.GrantedAuthority;
@@ -14,8 +16,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.kniapps.seotools.users.dao.IUserDao;
-import com.kniapps.seotools.users.model.UserRole;
+import com.kniapps.seotools.dao.IUserDao;
+import com.kniapps.seotools.model.UserRole;
  
  
 public class MyUserDetailsService implements UserDetailsService {
@@ -25,7 +27,7 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String username) 
                throws UsernameNotFoundException {
  
-        com.kniapps.seotools.users.model.User user = userDao.findByUserName(username);
+        com.kniapps.seotools.model.User user = userDao.findByUserName(username);
         List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
  
         return buildUserForAuthentication(user, authorities);
@@ -35,7 +37,7 @@ public class MyUserDetailsService implements UserDetailsService {
  
     // Converts com.kniapps.seotools.users.model.User to
     // org.springframework.security.core.userdetails.User
-    private User buildUserForAuthentication(com.kniapps.seotools.users.model.User user, 
+    private User buildUserForAuthentication(com.kniapps.seotools.model.User user, 
         List<GrantedAuthority> authorities) {
         return new User(user.getUsername(), 
             user.getPassword(), user.isEnabled(), 

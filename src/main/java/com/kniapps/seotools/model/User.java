@@ -1,4 +1,4 @@
-package com.kniapps.seotools.users.model;
+package com.kniapps.seotools.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,8 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.kniapps.seotools.keywordranking.model.Site;
  
 @Entity
 @Table(name = "users")

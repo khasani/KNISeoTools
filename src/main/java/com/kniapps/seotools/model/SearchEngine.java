@@ -1,4 +1,4 @@
-package com.kniapps.seotools.keywordranking.model;
+package com.kniapps.seotools.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="k_search_engines")
+@Table(name="kr_search_engines")
 public class SearchEngine {
 
     private long id;

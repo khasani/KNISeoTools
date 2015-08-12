@@ -29,7 +29,6 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
 	    <listener-class>org.apache.tiles.extras.complete.CompleteAutoloadTilesListener</listener-class>
 	</listener>
     
-    
     <!-- Loads Spring Security / Database config file -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

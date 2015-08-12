@@ -1,4 +1,4 @@
-package com.kniapps.seotools.keywordranking.model;
+package com.kniapps.seotools.model;
 
 import java.util.Date;
 import java.util.HashSet;

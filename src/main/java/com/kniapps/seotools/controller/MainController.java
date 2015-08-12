@@ -1,4 +1,4 @@
-package com.kniapps.seotools;
+package com.kniapps.seotools.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

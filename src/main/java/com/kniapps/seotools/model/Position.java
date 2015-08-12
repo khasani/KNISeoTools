@@ -1,4 +1,4 @@
-package com.kniapps.seotools.keywordranking.model;
+package com.kniapps.seotools.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

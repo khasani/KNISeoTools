@@ -1,4 +1,6 @@
-package com.kniapps.seotools.keywordranking.model;
+package com.kniapps.seotools.model;
+
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,19 +10,24 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="kr_keywords")
-public class Keyword {
-    
+@Table(name="kr_notes")
+public class Note {
+
     private long id;
-    private String name;
+    private Date date;
+    private String description;
     private Site site;
     
-    public Keyword( String name ) {
-        
-        this.name = name;
+    public Note() {
+    }
+    
+    public Note( Date date, String description ) {
+        this.date = date;
+        this.description = description;
     }
 
     @Id
@@ -34,13 +41,22 @@ public class Keyword {
         this.id = id;
     }
 
-    @Column
-    public String getName() {
-        return name;
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getDate() {
+        return date;
     }
 
-    public void setName( String name ) {
-        this.name = name;
+    public void setDate( Date date ) {
+        this.date = date;
+    }
+
+    @Column
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription( String description ) {
+        this.description = description;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -53,5 +69,8 @@ public class Keyword {
         this.site = site;
     }
     
+    
 
+    
+    
 }

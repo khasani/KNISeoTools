@@ -1,7 +1,8 @@
-package com.kniapps.seotools.users.model;
+package com.kniapps.seotools.model;
 
 
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

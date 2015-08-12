@@ -1,9 +1,14 @@
-package com.kniapps.seotools.users.dao;
+package com.kniapps.seotools.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.SessionFactory;
-import com.kniapps.seotools.users.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.kniapps.seotools.model.User;
  
  
 public class UserDao implements IUserDao {

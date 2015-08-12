@@ -1,4 +1,5 @@
-package com.kniapps.seotools.keywordranking.dao;
+package com.kniapps.seotools.dao;
+
 
 public class KeywordDao implements IKeywordDao {
 

@@ -1,8 +1,10 @@
-package com.kniapps.seotools.keywordranking.dao;
+package com.kniapps.seotools.dao;
 
 import java.util.List;
 
-import com.kniapps.seotools.keywordranking.model.Site;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.kniapps.seotools.model.Site;
 
 public interface ISiteDao {
 
