@@ -21,8 +21,7 @@ import com.kniapps.seotools.service.SitesService;
 @Controller
 public class KeywordRankingController {
     
-    @Autowired
-    private ISitesService sitesService;
+    
     
     @RequestMapping("/keyword-ranking")
     public ModelAndView showKeywordRankingDashboard(){
@@ -31,6 +30,13 @@ public class KeywordRankingController {
         
         return model;
     }
+    
+    /*******************************************************/
+    /************** WEBSITES *******************************/
+    /*******************************************************/
+    
+    @Autowired
+    private ISitesService sitesService;
     
     @RequestMapping("/keyword-ranking/websites")
     public ModelAndView showKeywordRankingWebsites(){
@@ -46,6 +52,18 @@ public class KeywordRankingController {
         return model;
     }
     
+    public ISitesService getSitesService() {
+        return sitesService;
+    }
+
+    public void setSitesService( ISitesService sitesService ) {
+        this.sitesService = sitesService;
+    }
+    
+    
+    /*******************************************************/
+    /************** KEYWORDS *******************************/
+    /*******************************************************/
     @RequestMapping("/keyword-ranking/keywords")
     public String showKeywordRankingKeywords(){
         
@@ -67,13 +85,7 @@ public class KeywordRankingController {
         return "keyword-ranking/options";
     }
 
-    public ISitesService getSitesService() {
-        return sitesService;
-    }
 
-    public void setSitesService( ISitesService sitesService ) {
-        this.sitesService = sitesService;
-    }
     
     
 

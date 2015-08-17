@@ -25,6 +25,7 @@ public class Site {
     private Set<Note> notes = new HashSet<Note>(0);
     private Set<Keyword> keywords = new HashSet<Keyword>(0);
     private SearchEngine searchEngine;
+    private Category category;
     private User user;
     
     public Site() {
@@ -111,13 +112,17 @@ public class Site {
     public void setUser( User user ) {
         this.user = user;
     }
-    
-    
-    
-    
-    
-    
 
+    @OneToOne
+    @JoinColumn(name="kr_category_id", referencedColumnName="id")
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory( Category category ) {
+        this.category = category;
+    }
+    
     
     
 }
