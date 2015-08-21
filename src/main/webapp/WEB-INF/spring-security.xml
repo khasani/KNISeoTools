@@ -23,8 +23,7 @@
 			password-parameter="password" />
 		<logout logout-success-url="/login?logout" />
 		<remember-me />
-		<!-- enable csrf protection -->
-		<csrf />
+
 	</http>
  
 	<authentication-manager>

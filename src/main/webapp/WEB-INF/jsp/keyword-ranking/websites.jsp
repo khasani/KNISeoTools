@@ -10,6 +10,7 @@
     <!-- /.col-lg-12 -->
 </div>
 
+
 <div class="row">
         <div class="col-lg-9">
             <div class="panel panel-default">
@@ -17,12 +18,13 @@
                     Websites list
                     <div class="pull-right">
                     	<button class="btn btn-default btn-s" data-target="#modal_add_site" data-toggle="modal"><i class="fa fa-plus"></i></button>
+                    	<button class="btn btn-default btn-s" onclick="OpenDialog();"><i class="fa fa-plus-square"></i></button>
                     </div>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="dataTable_wrapper">
-                        <table class="table table-striped table-hover" id="dataTables-example">
+                        <table class="table table-striped table-hover" id="datatable-websites">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -58,8 +60,8 @@
             <div style="display: none;" class="modal fade" id="modal_add_site" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                    <form role="form" method="POST" action="<c:url value="/keyword-ranking/websites"/>">
-                   
+                    <!-- <form role="form" id="form_add_website" method="POST" action="<c:url value="/keyword-ranking/websites"/>"> -->
+                    <form role="form" id="form_add_website" method="POST" action="${pageContext.request.contextPath}/keyword-ranking/websites">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h4 class="modal-title" id="myModalLabel">Add a new website</h4>
@@ -67,15 +69,15 @@
                         <div class="modal-body">
                                           	                                   
                                <div class="form-group input-group">     
-                                   <input class="form-control" id="name" placeholder="Site name" type="text"/>
+                                   <input class="form-control" id="name" name="name" placeholder="Site name" type="text"/>
                                    <span class="input-group-addon">Name</span>
                                </div>
                                <div class="form-group input-group">     
-                                   <input class="form-control" id="url" placeholder="http://" type="text"/>
+                                   <input class="form-control" id="url" name="url" placeholder="http://" type="text"/>
                                    <span class="input-group-addon">URL</span>
                                </div>
                                <div class="form-group input-group">                              		
-	                               	<input class="form-control" list="list_keywords" id="category"  placeholder="type a new category on select one"/>
+	                               	<input class="form-control" list="list_keywords" id="category" name="category" placeholder="type a new category on select one"/>
 	                               	<span class="input-group-addon">Category</span> 
 									<datalist id="list_keywords">
 									  <option value="jeux">
@@ -86,7 +88,7 @@
 									</datalist>						                          
                                </div>
                                <div class="form-group input-group">                    
-                                   <textarea class="form-control" rows="3" placeholder="keyword1,keyword2,keyword3..." id="keywords" ></textarea>
+                                   <textarea class="form-control" rows="3" placeholder="keyword1,keyword2,keyword3..." id="keywords"  name="keywords" ></textarea>
                                    <span class="input-group-addon">Keywords</span>
                                </div>                
                                
@@ -109,12 +111,68 @@
     </div>
             
             
-    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
+    $(document).ready(function() {      
+    	
+    	// If URL contain "#addWebsite" THEN AddWebsite dialog is showed
+        if(window.location.href.indexOf("#addWebsite",0) > 0) $('#modal_add_site').modal('show');  
+    	
+    	// Datatable config
+    	$('#datatable-websites').DataTable({
                 responsive: true
-        });
+        }); 
+    	
+    	/*var frm = $('#form_add_website');
+        frm.submit(function (ev) {
+            $.ajax({
+                type: frm.attr('method'),
+                url: frm.attr('action'),
+                data: frm.serialize(),
+                success: function (data) {
+                    alert('ok');
+                }
+            });
+
+            ev.preventDefault();
+        });*/
+    	
+    	/*$('#form_add_website').submit(function(event) {
+    	       
+    	      var name = $('#name').val();
+    	      var url = $('#url').val();
+    	      var category = $('#category').val();
+    	      var keywords = $('#keywords').val();
+    	      var json = { "name" : name, "url" : url, "category": category, "keywords": keywords};
+    	       
+    	    $.ajax({
+    	        //url: $("#form_add_website").attr("action"),
+    	        url: "/keyword-ranking/websites",
+    	        //data: JSON.stringify(json),
+    	        data: $("#form_add_website").serialize(),
+    	        type: "POST",
+    	         
+    	        beforeSend: function(xhr) {
+    	            xhr.setRequestHeader("Accept", "application/json");
+    	            xhr.setRequestHeader("Content-Type", "application/json");
+    	        },
+    	        success: function(data) {
+    	            
+    	        	alert(data);
+    	        	
+    	        	var respContent = "";
+    	             
+    	            respContent += "<span class='success'>Smartphone was created: [";
+    	            respContent += smartphone.producer + " : ";
+    	            respContent += smartphone.model + " : " ;
+    	            respContent += smartphone.price + "]</span>";
+    	             
+    	            $("#sPhoneFromResponse").html(respContent);      
+    	        }
+    	    });
+    	      
+    	    event.preventDefault();
+    	  });*/
+    	
     });
     </script>
    
