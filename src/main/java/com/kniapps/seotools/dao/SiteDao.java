@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kniapps.seotools.model.Site;
+import com.kniapps.seotools.model.User;
 
 public class SiteDao implements ISiteDao {
    
@@ -22,13 +23,16 @@ public class SiteDao implements ISiteDao {
     
     public List<Site> searchSites(String username) {
                        
-        Query hqlQuery = getSessionFactory().getCurrentSession().createQuery("from Site where user = ?");
-        return hqlQuery.setString(0,username).list();
+        Query hqlQuery = getSessionFactory().getCurrentSession().createQuery("from Site");
+        return hqlQuery.list();
     }
 
-    public void addSite( Site site ) {
-        // TODO Auto-generated method stub
-        
+    public void addSite(Site site) {
+                     
+        Session session = getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.save(site);
+        session.getTransaction().commit();
     }
 
     public void removeSite( long siteId ) {

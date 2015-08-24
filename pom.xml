@@ -140,8 +140,13 @@
 			<artifactId>logback-classic</artifactId>
 			<version>1.1.2</version>
 		</dependency>
-			
-	
+		
+		<!-- JSON -->
+		 <dependency>
+		   <groupId>org.codehaus.jackson</groupId>
+		   <artifactId>jackson-mapper-asl</artifactId>
+		   <version>1.9.10</version>
+		  </dependency>
 		
     </dependencies>
   

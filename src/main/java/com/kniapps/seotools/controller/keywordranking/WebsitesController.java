@@ -1,18 +1,27 @@
 package com.kniapps.seotools.controller.keywordranking;
 
+import java.util.HashSet;
 import java.util.List;
 
+import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.objenesis.instantiator.basic.NewInstanceInstantiator;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kniapps.seotools.dao.IUserDao;
+import com.kniapps.seotools.model.Category;
 import com.kniapps.seotools.model.Site;
+import com.kniapps.seotools.model.Keyword;
+import com.kniapps.seotools.model.User;
 import com.kniapps.seotools.service.ISitesService;
 
 @Controller
@@ -22,25 +31,69 @@ public class WebsitesController {
     @Autowired
     private ISitesService sitesService;
     
+    @Autowired
+    private IUserDao userDao;
+    
     @RequestMapping(value="keyword-ranking/websites", method=RequestMethod.GET)
     public String showWebsitesList(Model model){
                
         // Get Websites list for current user
-        List<Site> liste = sitesService.searchSites();
+        List<Site> list_sites = sitesService.searchSites();
         
-        // Add list to the model
-        model.addAttribute("websitesList",liste);
+        // Get the list of all existing categories
+        List<Category> list_categories = sitesService.listCategories();
+        
+        // Add lists to the model
+        model.addAttribute("websitesList",list_sites);
+        model.addAttribute("categoriesList",list_categories);
         
         return "keyword-ranking/websites";
     }
     
     @RequestMapping(value="keyword-ranking/websites", method=RequestMethod.POST)
-    //public String addNewWebsite(@RequestParam("name") String sName,@RequestParam("url") String sURL,@RequestParam("category") String sCategory,@RequestParam("keywords") String sKeywords,Model model){
-    public String addNewWebsite(Model model){
+    public @ResponseBody ResponseAddWebsite addNewWebsite(@RequestParam("name") String sName,@RequestParam("url") String sURL,@RequestParam("category") String sCategory,@RequestParam("keywords") String sKeywords,Model model){
                        
-        //model.addAttribute("name",sName);
+        ResponseAddWebsite response = new ResponseAddWebsite();
         
-        return "keyword-ranking/websites";
+        // Site creation
+        Site newSite = new Site();
+        newSite.setName(sName);
+        newSite.setUrl(sURL);
+        //newSite.importKeywords(sKeywords);
+        
+        // Category Management
+        Category category = sitesService.searchCategory(sCategory);
+        if (category == null)
+        {
+            category = new Category(sCategory);
+            //sitesService.addCategory(category);
+        }
+        newSite.setCategory(category);
+        
+        // Keyword Management
+        HashSet<Keyword> list_keywords = new HashSet<Keyword>(0);
+        list_keywords.add( new Keyword( "test" ) );
+        list_keywords.add( new Keyword( "test1" ) );
+        list_keywords.add( new Keyword( "test2" ) );
+        newSite.setKeywords(list_keywords);
+        
+        
+        // User
+        //String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        //User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //newSite.setUser(user);
+        
+        sitesService.addSite(newSite);
+        
+        
+        response.message="Fields in red are not in the correct format !";
+        response.success = false;
+        response.nameError = true;
+        response.categoryError = true;
+        response.keywordsError = true;
+        response.urlError = true;
+        
+        return response;
     }
     
     public ISitesService getSitesService() {
@@ -49,6 +102,70 @@ public class WebsitesController {
 
     public void setSitesService( ISitesService sitesService ) {
         this.sitesService = sitesService;
+    }
+    
+    // JSON Response (AJAX)
+    class ResponseAddWebsite{
+         
+        boolean success = false;
+        String message = "";
+        boolean nameError = false;
+        boolean urlError = false;
+        boolean keywordsError = false;
+        boolean categoryError = false;
+        
+        public ResponseAddWebsite() {
+        }
+
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public void setSuccess( boolean success ) {
+            this.success = success;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage( String message ) {
+            this.message = message;
+        }
+
+        public boolean isNameError() {
+            return nameError;
+        }
+
+        public void setNameError( boolean nameError ) {
+            this.nameError = nameError;
+        }
+
+        public boolean isUrlError() {
+            return urlError;
+        }
+
+        public void setUrlError( boolean urlError ) {
+            this.urlError = urlError;
+        }
+
+        public boolean isKeywordsError() {
+            return keywordsError;
+        }
+
+        public void setKeywordsError( boolean keywordsError ) {
+            this.keywordsError = keywordsError;
+        }
+
+        public boolean isCategoryError() {
+            return categoryError;
+        }
+
+        public void setCategoryError( boolean categoryError ) {
+            this.categoryError = categoryError;
+        }
+        
+        
     }
 
 }

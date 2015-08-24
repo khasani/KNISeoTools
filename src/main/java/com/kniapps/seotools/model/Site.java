@@ -26,7 +26,6 @@ public class Site {
     private Set<Keyword> keywords = new HashSet<Keyword>(0);
     private SearchEngine searchEngine;
     private Category category;
-    private User user;
     
     public Site() {
     }
@@ -101,16 +100,6 @@ public class Site {
 
     public void setSearchEngine( SearchEngine searchEngine ) {
         this.searchEngine = searchEngine;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "kr_user_username", nullable = false)
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser( User user ) {
-        this.user = user;
     }
 
     @OneToOne

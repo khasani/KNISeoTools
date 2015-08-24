@@ -19,7 +19,6 @@ public class User {
 	private String email;
 	private boolean enabled;
 	private Set<UserRole> userRole = new HashSet<UserRole>(0);
-	private Set<Site> sites = new HashSet<Site>(0);
  
 	public User() {
 	}
@@ -84,16 +83,6 @@ public class User {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    public Set<Site> getSites() {
-        return sites;
-    }
-
-    public void setSites( Set<Site> sites ) {
-        this.sites = sites;
-    }
-    
     
 	
 	

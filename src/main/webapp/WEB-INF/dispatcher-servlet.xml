@@ -54,4 +54,17 @@
     <mvc:resources mapping="/resources/**" location="/resources/theme_default/" cache-period="31556926"/>
     <mvc:annotation-driven />
     
+	<mvc:annotation-driven  content-negotiation-manager="contentNegotiationManager" />
+	
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+	     <property name="favorPathExtension" value="false" />
+	     <property name="favorParameter" value="true" />
+	     <property name="mediaTypes" >
+	          <value>
+	               json=application/json
+	               xml=application/xml
+	          </value>
+	     </property>
+	</bean>
+    
 </beans>

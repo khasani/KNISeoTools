@@ -3,6 +3,8 @@ package com.kniapps.seotools.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.kniapps.seotools.dao.CategoryDao;
+import com.kniapps.seotools.dao.ICategoryDao;
 import com.kniapps.seotools.dao.ISiteDao;
 import com.kniapps.seotools.dao.SiteDao;
 import com.kniapps.seotools.service.ISitesService;
@@ -23,6 +25,11 @@ public class Config {
     @Bean
     public ISiteDao siteDAO(){
        return new SiteDao();
+    }
+    
+    @Bean
+    public ICategoryDao categoryDAO(){
+       return new CategoryDao();
     }
 
 }
