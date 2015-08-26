@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kniapps.seotools.dao.ICategoryDao;
+import com.kniapps.seotools.dao.ISearchEngineDao;
 import com.kniapps.seotools.dao.ISiteDao;
 import com.kniapps.seotools.dao.SiteDao;
 import com.kniapps.seotools.model.Category;
+import com.kniapps.seotools.model.SearchEngine;
 import com.kniapps.seotools.model.Site;
 import com.kniapps.seotools.model.User;
 
@@ -27,15 +29,27 @@ public class SitesService implements ISitesService {
     @Autowired
     private ICategoryDao categoryDao;
     
-    @Transactional(readOnly=true)
-    public List<Site> searchSites() {
-       
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        return siteDao.searchSites(userName);
-    }
+    @Autowired
+    private ISearchEngineDao searchEngineDao;
+    
+    /*********  SITES  ***********************************/
     
     @Transactional(readOnly=true)
-    public Category searchCategory(String sCategory) {
+    public List<Site> listSites() {
+       
+        return siteDao.listSites();
+    }
+    
+    @Transactional
+    public void addSite(Site site) throws Exception {
+              
+        siteDao.addSite(site);
+    }
+    
+    /*********  CATEGORY  ***********************************/
+    
+    @Transactional(readOnly=true)
+    public Category findCategory(String sCategory) {
        
         return categoryDao.searchCategory(sCategory);
     }
@@ -46,16 +60,21 @@ public class SitesService implements ISitesService {
         return categoryDao.listCategories();
     }
     
-    @Transactional
-    public void addCategory(Category category) {
-        
-        categoryDao.addCategory(category);
+    /*********  SearchEngines  ***********************************/
+    
+    @Transactional(readOnly=true)
+    public SearchEngine findSearchEngine(String sSearchEngine) {
+       
+        return searchEngineDao.findSearchEngine(sSearchEngine);
     }
     
-    public void addSite( Site site ) {
-              
-        siteDao.addSite( site );
+    @Transactional(readOnly=true)
+    public List<SearchEngine> listSearchEngines() {
+       
+        return searchEngineDao.listSearchEngines();
     }
+    
+    /********* Getters / Setters  *******************************/
 
     public ISiteDao getSiteDao() {
         return siteDao;
@@ -71,6 +90,14 @@ public class SitesService implements ISitesService {
 
     public void setCategoryDao( ICategoryDao categoryDao ) {
         this.categoryDao = categoryDao;
+    }
+
+    public ISearchEngineDao getSearchEngineDao() {
+        return searchEngineDao;
+    }
+
+    public void setSearchEngineDao( ISearchEngineDao searchEngineDao ) {
+        this.searchEngineDao = searchEngineDao;
     }
 
 

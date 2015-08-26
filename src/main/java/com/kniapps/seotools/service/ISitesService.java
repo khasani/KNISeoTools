@@ -6,13 +6,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kniapps.seotools.model.Category;
+import com.kniapps.seotools.model.SearchEngine;
 import com.kniapps.seotools.model.Site;
 
 public interface ISitesService {
 
-    List<Site> searchSites();
-    Category searchCategory(String sCategory);
+    // Sites
+    List<Site> listSites();
+    void addSite(Site site) throws Exception;
+    
+    // Categories
+    Category findCategory(String sCategory);
     List<Category> listCategories();
-    void addCategory(Category category);
-    void addSite(Site site);
+    
+    // Search Engine
+    SearchEngine findSearchEngine(String sSearchEngine);
+    List<SearchEngine> listSearchEngines();
 }

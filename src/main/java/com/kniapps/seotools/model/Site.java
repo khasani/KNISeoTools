@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Cascade;
+
 @Entity
 @Table(name="kr_sites")
 public class Site {
@@ -92,6 +95,7 @@ public class Site {
         this.keywords = keywords;
     }
 
+    @Cascade({CascadeType.SAVE_UPDATE})
     @OneToOne
     @JoinColumn(name="kr_search_engine_id", referencedColumnName="id")
     public SearchEngine getSearchEngine() {
@@ -102,8 +106,9 @@ public class Site {
         this.searchEngine = searchEngine;
     }
 
+    @Cascade({CascadeType.SAVE_UPDATE})
     @OneToOne
-    @JoinColumn(name="kr_category_id", referencedColumnName="id")
+    @JoinColumn(name="kr_category_id",referencedColumnName="id")
     public Category getCategory() {
         return category;
     }

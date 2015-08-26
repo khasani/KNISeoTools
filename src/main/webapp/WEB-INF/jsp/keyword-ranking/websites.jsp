@@ -92,7 +92,27 @@
                                <div id="form_error_keywords" class="form-group input-group">                    
                                    <textarea class="form-control" rows="3" placeholder="keyword1,keyword2,keyword3..." id="keywords"  name="keywords" ></textarea>
                                    <span class="input-group-addon">Keywords</span>
-                               </div>    
+                               </div>  
+                               <div id="form_error_search_engine" class="form-group input-group">                              		
+	                               	<select  class="form-control" id="search_engine" name="search_engine" placeholder="select a search engine">
+									  <c:if test="${fn:length(searchEnginesList) > 0}">
+			                                <c:forEach var="i" begin="0" end="${fn:length(searchEnginesList)-1}">
+				                                <option value="${searchEnginesList[i].url}">${searchEnginesList[i].url}</option>
+											</c:forEach>
+										</c:if>
+									</select>
+	                               	<span class="input-group-addon">Search Engine</span> 			                          
+                               </div>  
+                               <div id="form_error_search_engine" class="form-group input-group">                              		
+	                               	<select  class="form-control" id="search_engine" name="search_engine" placeholder="select a search engine">
+									    <c:if test="${fn:length(websitesList) > 0}">
+			                                <c:forEach var="i" begin="0" end="${fn:length(websitesList)-1}">
+				                                <option value="${websitesList[i].name}">${websitesList[i].name}</option>
+											</c:forEach>
+										</c:if>
+									</select>
+	                               	<span class="input-group-addon">Import Keywords from Website</span> 	                          
+                               </div>  
                                
                                <div><H4 id="form_error_message"></H4></div>            
                                

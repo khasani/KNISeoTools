@@ -8,8 +8,8 @@ import com.kniapps.seotools.model.Site;
 
 public interface ISiteDao {
 
-    public List<Site> searchSites(String username);
-    public void addSite(Site site);
+    public List<Site> listSites();
+    public void addSite(Site site) throws Exception;
     public void removeSite(long siteId);
     
 }

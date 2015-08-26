@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kniapps.seotools.dao.IUserDao;
 import com.kniapps.seotools.model.Category;
+import com.kniapps.seotools.model.SearchEngine;
 import com.kniapps.seotools.model.Site;
 import com.kniapps.seotools.model.Keyword;
 import com.kniapps.seotools.model.User;
@@ -31,27 +32,28 @@ public class WebsitesController {
     @Autowired
     private ISitesService sitesService;
     
-    @Autowired
-    private IUserDao userDao;
-    
     @RequestMapping(value="keyword-ranking/websites", method=RequestMethod.GET)
     public String showWebsitesList(Model model){
                
         // Get Websites list for current user
-        List<Site> list_sites = sitesService.searchSites();
+        List<Site> list_sites = sitesService.listSites();
         
         // Get the list of all existing categories
         List<Category> list_categories = sitesService.listCategories();
         
+        // Get the list of all existing search engines
+        List<SearchEngine> list_searchEngines = sitesService.listSearchEngines();
+        
         // Add lists to the model
         model.addAttribute("websitesList",list_sites);
         model.addAttribute("categoriesList",list_categories);
+        model.addAttribute("searchEnginesList",list_searchEngines);
         
         return "keyword-ranking/websites";
     }
     
     @RequestMapping(value="keyword-ranking/websites", method=RequestMethod.POST)
-    public @ResponseBody ResponseAddWebsite addNewWebsite(@RequestParam("name") String sName,@RequestParam("url") String sURL,@RequestParam("category") String sCategory,@RequestParam("keywords") String sKeywords,Model model){
+    public @ResponseBody ResponseAddWebsite addNewWebsite(@RequestParam("name") String sName,@RequestParam("url") String sURL,@RequestParam("category") String sCategory,@RequestParam("keywords") String sKeywords,@RequestParam("searchEngine") String sSearchEngine,Model model){
                        
         ResponseAddWebsite response = new ResponseAddWebsite();
         
@@ -62,13 +64,20 @@ public class WebsitesController {
         //newSite.importKeywords(sKeywords);
         
         // Category Management
-        Category category = sitesService.searchCategory(sCategory);
+        Category category = sitesService.findCategory(sCategory);
         if (category == null)
         {
             category = new Category(sCategory);
-            //sitesService.addCategory(category);
         }
         newSite.setCategory(category);
+        
+        // SearchEngine Management
+        SearchEngine searchEngine = sitesService.findSearchEngine(sSearchEngine);
+        if (searchEngine == null)
+        {
+            // Error
+        }
+        newSite.setSearchEngine(searchEngine);
         
         // Keyword Management
         HashSet<Keyword> list_keywords = new HashSet<Keyword>(0);
@@ -77,13 +86,12 @@ public class WebsitesController {
         list_keywords.add( new Keyword( "test2" ) );
         newSite.setKeywords(list_keywords);
         
-        
-        // User
-        //String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        //User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //newSite.setUser(user);
-        
-        sitesService.addSite(newSite);
+        try {
+            sitesService.addSite(newSite);
+        } catch ( Exception e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
         
         response.message="Fields in red are not in the correct format !";
