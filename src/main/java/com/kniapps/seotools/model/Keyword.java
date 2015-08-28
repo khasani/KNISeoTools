@@ -22,6 +22,12 @@ public class Keyword {
         
         this.name = name;
     }
+    
+public Keyword( String name, Site site ) {
+        
+        this.name = name;
+        this.site = site;
+    }
 
     @Id
     @GeneratedValue

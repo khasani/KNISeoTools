@@ -32,24 +32,15 @@ public class SiteDao implements ISiteDao {
 
     public void addSite(Site site) throws Exception {
                          
-        final Session session = getSessionFactory().getCurrentSession();
-        Transaction transaction = session.getTransaction();
-        if(transaction.isActive()) transaction.rollback();
-
         try {
-          transaction = session.beginTransaction();
-          try {
-              // The real work is here
-              session.save(site);
-              transaction.commit();
+        
+            getSessionFactory().getCurrentSession().save(site);
+              
           } catch (Exception ex) {
-            // Log the exception here
-            transaction.rollback();
+        
             throw ex;
           }
-        } finally {
-          
-        }
+
     }
 
     public void removeSite( long siteId ) {

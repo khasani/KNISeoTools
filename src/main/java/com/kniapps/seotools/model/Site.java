@@ -86,6 +86,7 @@ public class Site {
         this.notes = notes;
     }
 
+    @Cascade({CascadeType.SAVE_UPDATE})
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
     public Set<Keyword> getKeywords() {
         return keywords;

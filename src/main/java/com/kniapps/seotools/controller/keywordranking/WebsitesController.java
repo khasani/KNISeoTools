@@ -28,7 +28,6 @@ import com.kniapps.seotools.service.ISitesService;
 @Controller
 public class WebsitesController {
     
-    
     @Autowired
     private ISitesService sitesService;
     
@@ -53,7 +52,7 @@ public class WebsitesController {
     }
     
     @RequestMapping(value="keyword-ranking/websites", method=RequestMethod.POST)
-    public @ResponseBody ResponseAddWebsite addNewWebsite(@RequestParam("name") String sName,@RequestParam("url") String sURL,@RequestParam("category") String sCategory,@RequestParam("keywords") String sKeywords,@RequestParam("searchEngine") String sSearchEngine,Model model){
+    public @ResponseBody ResponseAddWebsite addNewWebsite(@RequestParam("name") String sName,@RequestParam("url") String sURL,@RequestParam("category") String sCategory,@RequestParam("keywords") String sKeywords,@RequestParam("search_engine") String sSearchEngine){
                        
         ResponseAddWebsite response = new ResponseAddWebsite();
         
@@ -61,7 +60,6 @@ public class WebsitesController {
         Site newSite = new Site();
         newSite.setName(sName);
         newSite.setUrl(sURL);
-        //newSite.importKeywords(sKeywords);
         
         // Category Management
         Category category = sitesService.findCategory(sCategory);
@@ -80,10 +78,7 @@ public class WebsitesController {
         newSite.setSearchEngine(searchEngine);
         
         // Keyword Management
-        HashSet<Keyword> list_keywords = new HashSet<Keyword>(0);
-        list_keywords.add( new Keyword( "test" ) );
-        list_keywords.add( new Keyword( "test1" ) );
-        list_keywords.add( new Keyword( "test2" ) );
+        HashSet<Keyword> list_keywords = convertKeywords(sKeywords,newSite);
         newSite.setKeywords(list_keywords);
         
         try {
@@ -104,12 +99,36 @@ public class WebsitesController {
         return response;
     }
     
+    @RequestMapping(value="keyword-ranking/deleteWebsite", method=RequestMethod.GET)
+    public @ResponseBody ResponseAddWebsite deleteWebsite(@RequestParam("id") String sID)
+    {
+        ResponseAddWebsite response = new ResponseAddWebsite();
+        
+        
+        return response;
+    }
+            
     public ISitesService getSitesService() {
         return sitesService;
     }
 
     public void setSitesService( ISitesService sitesService ) {
         this.sitesService = sitesService;
+    }
+    
+    private HashSet<Keyword> convertKeywords(String sKeywords, Site site)
+    {
+        HashSet<Keyword> list_keywords = new HashSet<Keyword>(0);
+        
+        String[] tab_keywords = sKeywords.split(",");
+        for(int i=0 ; i<tab_keywords.length ; i++)
+        {
+            if (! tab_keywords[i].equals(""))
+            {
+                list_keywords.add( new Keyword(tab_keywords[i],site));
+            }
+        }
+        return list_keywords;
     }
     
     // JSON Response (AJAX)
@@ -121,6 +140,7 @@ public class WebsitesController {
         boolean urlError = false;
         boolean keywordsError = false;
         boolean categoryError = false;
+        boolean searchEngineError = false;
         
         public ResponseAddWebsite() {
         }
@@ -172,7 +192,14 @@ public class WebsitesController {
         public void setCategoryError( boolean categoryError ) {
             this.categoryError = categoryError;
         }
-        
+
+        public boolean isSearchEngineError() {
+            return searchEngineError;
+        }
+
+        public void setSearchEngineError( boolean searchEngineError ) {
+            this.searchEngineError = searchEngineError;
+        }
         
     }
 

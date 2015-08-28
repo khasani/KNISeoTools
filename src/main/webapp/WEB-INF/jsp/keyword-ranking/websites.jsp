@@ -39,7 +39,7 @@
 		                                    <td>
 		                                    	<a href="<c:url value="/keyword-ranking/site?id=${websitesList[i].id}"/>"><c:out value="${websitesList[i].name}"/></a> - 
 		                                    	<a href="#"><i class="fa fa-pencil-square-o fa-fw"></i></a>
-		                                    	<a href="#"><i class="fa fa-trash-o fa-fw"></i></a>
+		                                    	<a href="#" onclick="deleteWebsite(${websitesList[i].id})"><i class="fa fa-trash-o fa-fw"></i></a>
 		                                    </td>
 		                                    <td><a href="${websitesList[i].url}" target="_blank"><c:out value="${websitesList[i].url}"/></a></td>
 		                                    <td><c:out value="${websitesList[i].category.name}"/></td>
@@ -89,22 +89,9 @@
 									  </c:if>
 									</datalist>						                          
                                </div>
-                               <div id="form_error_keywords" class="form-group input-group">                    
-                                   <textarea class="form-control" rows="3" placeholder="keyword1,keyword2,keyword3..." id="keywords"  name="keywords" ></textarea>
-                                   <span class="input-group-addon">Keywords</span>
-                               </div>  
-                               <div id="form_error_search_engine" class="form-group input-group">                              		
-	                               	<select  class="form-control" id="search_engine" name="search_engine" placeholder="select a search engine">
-									  <c:if test="${fn:length(searchEnginesList) > 0}">
-			                                <c:forEach var="i" begin="0" end="${fn:length(searchEnginesList)-1}">
-				                                <option value="${searchEnginesList[i].url}">${searchEnginesList[i].url}</option>
-											</c:forEach>
-										</c:if>
-									</select>
-	                               	<span class="input-group-addon">Search Engine</span> 			                          
-                               </div>  
-                               <div id="form_error_search_engine" class="form-group input-group">                              		
-	                               	<select  class="form-control" id="search_engine" name="search_engine" placeholder="select a search engine">
+                               <div id="form_error_import_from_website" class="form-group input-group">                              		
+	                               	<select  class="form-control" id="import_from_website" name="import_from_website">
+									    <option value=""></option>
 									    <c:if test="${fn:length(websitesList) > 0}">
 			                                <c:forEach var="i" begin="0" end="${fn:length(websitesList)-1}">
 				                                <option value="${websitesList[i].name}">${websitesList[i].name}</option>
@@ -112,6 +99,20 @@
 										</c:if>
 									</select>
 	                               	<span class="input-group-addon">Import Keywords from Website</span> 	                          
+                               </div>  
+                               <div id="form_error_keywords" class="form-group input-group">                    
+                                   <textarea class="form-control" rows="3" placeholder="keyword1,keyword2,keyword3..." id="keywords"  name="keywords" ></textarea>
+                                   <span class="input-group-addon">Keywords</span>
+                               </div>  
+                               <div id="form_error_search_engine" class="form-group input-group">                              		
+	                               	<select  class="form-control" id="search_engine" name="search_engine">
+									  <c:if test="${fn:length(searchEnginesList) > 0}">
+			                                <c:forEach var="i" begin="0" end="${fn:length(searchEnginesList)-1}">
+				                                <option value="${searchEnginesList[i].url}">${searchEnginesList[i].url}</option>
+											</c:forEach>
+										</c:if>
+									</select>
+	                               	<span class="input-group-addon">Search Engine</span> 			                          
                                </div>  
                                
                                <div><H4 id="form_error_message"></H4></div>            
@@ -134,6 +135,34 @@
         <!-- /.col-lg-12 -->
     </div>
     
+	<!-- Modal -->           
+	<div style="display: none;" class="modal fade" id="modal_delete_site" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_delete" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	        <form role="form" id="form_delete_website" method="POST" action="<c:url value="/keyword-ranking/deleteWebsite"/>">
+	
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title" id="myModalLabel_delete">Delete website</h4>
+	            </div>
+	            <div class="modal-body">
+	                              	                                   
+	                   Are you sure to delete this website ?
+	                   
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+	                <button type="submit" class="btn btn-primary">Delete</button>
+	            </div>
+	        
+	        </form>
+	        </div>
+	        <!-- /.modal-content -->
+	    </div>
+	    <!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+    
         <script>
     $(document).ready(function() {      
     	
@@ -145,7 +174,7 @@
                 responsive: true
         }); 
     	
-    	// Submit Form in AJAX
+    	// Submit Form in AJAX Add Website
     	var frm = $('#form_add_website');
         frm.submit(function (ev) {
             $.ajax({
@@ -154,16 +183,43 @@
                 data: frm.serialize(),
                 success: function (data) {
                 	
-                	alert(data.success);
-                	
                 	if (data.success == false)
                 	{
                 		if (data.nameError) $("#form_error_name").addClass("has-error");
                 		if (data.urlError) $("#form_error_url").addClass("has-error");
                 		if (data.categoryError) $("#form_error_category").addClass("has-error");
                 		if (data.keywordsError) $("#form_error_keywords").addClass("has-error");
+                		if (data.searchEngineError) $("#form_error_search_engine").addClass("has-error");
                 		$("#form_error_message").html(data.message);
                 	}                  
+                    
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+	                   alert("AJAX error : " + xhr.status + thrownError);
+                }
+            });
+
+            ev.preventDefault();
+        });
+        
+     	// Submit Form in AJAX Delete Website
+    	var frm = $('#form_delete_website');
+        frm.submit(function (ev) {
+            $.ajax({
+                type: frm.attr('method'),
+                url: frm.attr('action'),
+                data: frm.serialize(),
+                success: function (data) {
+                	
+                	/*if (data.success == false)
+                	{
+                		if (data.nameError) $("#form_error_name").addClass("has-error");
+                		if (data.urlError) $("#form_error_url").addClass("has-error");
+                		if (data.categoryError) $("#form_error_category").addClass("has-error");
+                		if (data.keywordsError) $("#form_error_keywords").addClass("has-error");
+                		if (data.searchEngineError) $("#form_error_search_engine").addClass("has-error");
+                		$("#form_error_message").html(data.message);
+                	}  */                
                     
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -182,7 +238,14 @@
 		$("#form_error_url").removeClass("has-error");
 		$("#form_error_category").removeClass("has-error");
 		$("#form_error_keywords").removeClass("has-error");
+		$("#form_error_search_engine").removeClass("has-error");
 		$("#form_error_message").html("");
+    }
+    
+    function deleteWebsite(id)
+    {
+    	
+    	$('#modal_delete_site').modal('show');   	
     }
     
     function openAddForm()
