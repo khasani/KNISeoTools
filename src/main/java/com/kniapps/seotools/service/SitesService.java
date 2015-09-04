@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kniapps.seotools.dao.ICategoryDao;
+import com.kniapps.seotools.dao.IKeywordDao;
 import com.kniapps.seotools.dao.ISearchEngineDao;
 import com.kniapps.seotools.dao.ISiteDao;
 import com.kniapps.seotools.dao.SiteDao;
 import com.kniapps.seotools.model.Category;
+import com.kniapps.seotools.model.Keyword;
 import com.kniapps.seotools.model.SearchEngine;
 import com.kniapps.seotools.model.Site;
 import com.kniapps.seotools.model.User;
@@ -31,6 +33,9 @@ public class SitesService implements ISitesService {
     
     @Autowired
     private ISearchEngineDao searchEngineDao;
+    
+    @Autowired
+    private IKeywordDao keywordDao;
     
     /*********  SITES  ***********************************/
     
@@ -74,6 +79,15 @@ public class SitesService implements ISitesService {
         return searchEngineDao.listSearchEngines();
     }
     
+    /*********  Keywords  ***********************************/
+    
+    @Transactional(readOnly=true)
+    public List<Keyword> findKeywords(long siteID) {
+       
+        return keywordDao.findKeywords(siteID);
+    }
+    
+    
     /********* Getters / Setters  *******************************/
 
     public ISiteDao getSiteDao() {
@@ -100,6 +114,15 @@ public class SitesService implements ISitesService {
         this.searchEngineDao = searchEngineDao;
     }
 
+    public IKeywordDao getKeywordDao() {
+        return keywordDao;
+    }
+
+    public void setKeywordDao( IKeywordDao keywordDao ) {
+        this.keywordDao = keywordDao;
+    }
+
+    
 
 
 

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kniapps.seotools.model.Category;
+import com.kniapps.seotools.model.Keyword;
 import com.kniapps.seotools.model.SearchEngine;
 import com.kniapps.seotools.model.Site;
 
@@ -22,4 +23,7 @@ public interface ISitesService {
     // Search Engine
     SearchEngine findSearchEngine(String sSearchEngine);
     List<SearchEngine> listSearchEngines();
+    
+    // Keywords
+    List<Keyword> findKeywords(long siteID);
 }

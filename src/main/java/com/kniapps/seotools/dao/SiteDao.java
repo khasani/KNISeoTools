@@ -40,7 +40,6 @@ public class SiteDao implements ISiteDao {
         
             throw ex;
           }
-
     }
 
     public void removeSite( long siteId ) {

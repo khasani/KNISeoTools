@@ -30,6 +30,7 @@
                                     <th>Name</th>
                                     <th>URL</th>
                                     <th>Category</th>
+                                    <th>Search Engine</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -43,6 +44,7 @@
 		                                    </td>
 		                                    <td><a href="${websitesList[i].url}" target="_blank"><c:out value="${websitesList[i].url}"/></a></td>
 		                                    <td><c:out value="${websitesList[i].category.name}"/></td>
+		                                    <td><c:out value="${websitesList[i].searchEngine.url}"/></td>
 		                                </tr>
 									</c:forEach>
 								</c:if>
@@ -94,7 +96,7 @@
 									    <option value=""></option>
 									    <c:if test="${fn:length(websitesList) > 0}">
 			                                <c:forEach var="i" begin="0" end="${fn:length(websitesList)-1}">
-				                                <option value="${websitesList[i].name}">${websitesList[i].name}</option>
+				                                <option value="${websitesList[i].id}">${websitesList[i].name}</option>
 											</c:forEach>
 										</c:if>
 									</select>
@@ -166,9 +168,6 @@
         <script>
     $(document).ready(function() {      
     	
-    	// If URL contain "#addWebsite" THEN AddWebsite dialog is showed
-        if(window.location.href.indexOf("#addWebsite",0) > 0) $('#modal_add_site').modal('show');  
-    	
     	// Datatable config
     	$('#datatable-websites').DataTable({
                 responsive: true
@@ -191,6 +190,11 @@
                 		if (data.keywordsError) $("#form_error_keywords").addClass("has-error");
                 		if (data.searchEngineError) $("#form_error_search_engine").addClass("has-error");
                 		$("#form_error_message").html(data.message);
+                		
+                	}else{
+                		
+                		// Reload the current page
+                		location.reload();
                 	}                  
                     
                 },
@@ -202,13 +206,34 @@
             ev.preventDefault();
         });
         
+     	// AJAX Import Keywords From Website
+    	var sel_import_from_website = $('#import_from_website');
+    	sel_import_from_website.change(function (ev) {
+    		var siteID = $('#import_from_website').val();//sel_import_from_website.value;
+    		if (sel_import_from_website.prop("selectedIndex") != 0)
+    		$.ajax({
+                method: "GET",
+                url: "/kniseotools/keyword-ranking/importKeywords",
+                data: "id=" + siteID,
+                dataType: "html",
+                success: function (data) {
+             		$('#keywords').val(data);           		                    
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+	                   alert("AJAX error : " + xhr.status + thrownError);
+                }
+            });
+
+            ev.preventDefault();
+        });
+        
      	// Submit Form in AJAX Delete Website
-    	var frm = $('#form_delete_website');
-        frm.submit(function (ev) {
+    	var frm_delete = $('#form_delete_website');
+    	frm_delete.submit(function (ev) {
             $.ajax({
-                type: frm.attr('method'),
-                url: frm.attr('action'),
-                data: frm.serialize(),
+                type: frm_delete.attr('method'),
+                url: frm_delete.attr('action'),
+                data: frm_delete.serialize(),
                 success: function (data) {
                 	
                 	/*if (data.success == false)
@@ -229,28 +254,37 @@
 
             ev.preventDefault();
         });
+    	
+    	
 
     });
     
-    function initAddForm()
-    {
-    	$("#form_error_name").removeClass("has-error");
-		$("#form_error_url").removeClass("has-error");
-		$("#form_error_category").removeClass("has-error");
-		$("#form_error_keywords").removeClass("has-error");
-		$("#form_error_search_engine").removeClass("has-error");
-		$("#form_error_message").html("");
-    }
     
-    function deleteWebsite(id)
+    function deleteWebsite(id,name)
     {
-    	
+    	$('#modal_delete_site').
     	$('#modal_delete_site').modal('show');   	
     }
     
     function openAddForm()
     {
-    	initAddForm();
+    	// Remove Error classes
+    	$("#form_error_name").removeClass("has-error");
+		$("#form_error_url").removeClass("has-error");
+		$("#form_error_category").removeClass("has-error");
+		$("#form_error_keywords").removeClass("has-error");
+		$("#form_error_search_engine").removeClass("has-error");
+		
+		// Init fields
+		$("#form_error_message").html("");
+		$("#name").val("");
+		$("#url").val("");
+		$("#category").val("");
+		$("#import_from_website").prop("selectedIndex",0);
+		$("#keywords").val("");
+		
+    	
+    	// Show the form in a modal mode
     	$('#modal_add_site').modal('show');
     }
     

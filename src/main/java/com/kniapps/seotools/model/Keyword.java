@@ -18,12 +18,15 @@ public class Keyword {
     private String name;
     private Site site;
     
+    public Keyword() {
+    }
+    
     public Keyword( String name ) {
         
         this.name = name;
     }
     
-public Keyword( String name, Site site ) {
+    public Keyword( String name, Site site ) {
         
         this.name = name;
         this.site = site;
