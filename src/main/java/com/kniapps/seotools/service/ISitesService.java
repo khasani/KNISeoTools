@@ -15,6 +15,7 @@ public interface ISitesService {
     // Sites
     List<Site> listSites();
     void addSite(Site site) throws Exception;
+    void removeSite(long id) throws Exception;
     
     // Categories
     Category findCategory(String sCategory);

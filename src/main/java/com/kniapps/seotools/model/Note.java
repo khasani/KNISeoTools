@@ -13,6 +13,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 @Entity
 @Table(name="kr_notes")
 public class Note {
@@ -59,6 +62,7 @@ public class Note {
         this.description = description;
     }
 
+    @Cascade({CascadeType.ALL})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "kr_site_id", nullable = false)
     public Site getSite() {

@@ -43,8 +43,12 @@ public class SiteDao implements ISiteDao {
     }
 
     public void removeSite( long siteId ) {
-        // TODO Auto-generated method stub
         
+        Session session = getSessionFactory().getCurrentSession();
+        Object persistentInstance = session.load(Site.class, siteId);
+        if (persistentInstance != null) {
+            session.delete(persistentInstance);
+        }
     }
 
     public SessionFactory getSessionFactory() {

@@ -27,6 +27,7 @@ public class Site {
     private boolean runDaily;
     private Set<Note> notes = new HashSet<Note>(0);
     private Set<Keyword> keywords = new HashSet<Keyword>(0);
+    private Set<Run> runs = new HashSet<Run>(0);
     private SearchEngine searchEngine;
     private Category category;
     
@@ -77,6 +78,7 @@ public class Site {
         this.runDaily = runDaily;
     }
 
+    @Cascade({CascadeType.ALL})
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
     public Set<Note> getNotes() {
         return notes;
@@ -85,8 +87,18 @@ public class Site {
     public void setNotes( Set<Note> notes ) {
         this.notes = notes;
     }
+    
+    @Cascade({CascadeType.ALL})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
+    public Set<Run> getRuns() {
+        return runs;
+    }
 
-    @Cascade({CascadeType.SAVE_UPDATE})
+    public void setRuns( Set<Run> runs ) {
+        this.runs = runs;
+    }
+
+    @Cascade({CascadeType.ALL})
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
     public Set<Keyword> getKeywords() {
         return keywords;
@@ -117,6 +129,10 @@ public class Site {
     public void setCategory( Category category ) {
         this.category = category;
     }
+
+
+    
+    
     
     
     

@@ -40,7 +40,7 @@
 		                                    <td>
 		                                    	<a href="<c:url value="/keyword-ranking/site?id=${websitesList[i].id}"/>"><c:out value="${websitesList[i].name}"/></a> - 
 		                                    	<a href="#"><i class="fa fa-pencil-square-o fa-fw"></i></a>
-		                                    	<a href="#" onclick="deleteWebsite(${websitesList[i].id})"><i class="fa fa-trash-o fa-fw"></i></a>
+		                                    	<a href="#" onclick="deleteWebsite(${websitesList[i].id},'${websitesList[i].name}','${websitesList[i].url}')"><i class="fa fa-trash-o fa-fw"></i></a>
 		                                    </td>
 		                                    <td><a href="${websitesList[i].url}" target="_blank"><c:out value="${websitesList[i].url}"/></a></td>
 		                                    <td><c:out value="${websitesList[i].category.name}"/></td>
@@ -149,15 +149,39 @@
 	            </div>
 	            <div class="modal-body">
 	                              	                                   
-	                   Are you sure to delete this website ?
+	                   Are you sure to delete this website : <span id="modal_delete_span_website"></span> ? All the runs will also be deleted !
 	                   
 	            </div>
+	            
+	            <input id="delete_site_id" name="delete_site_id" type="hidden"/>
+	                               	
 	            <div class="modal-footer">
 	                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 	                <button type="submit" class="btn btn-primary">Delete</button>
 	            </div>
 	        
 	        </form>
+	        </div>
+	        <!-- /.modal-content -->
+	    </div>
+	    <!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	
+	<!-- Modal -->           
+	<div style="display: none;" class="modal fade" id="modal_message_box" tabindex="-1" role="dialog" aria-labelledby="messagebox_title" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">	
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title" id="messagebox_title"></h4>
+	            </div>
+	            <div class="modal-body" id="messagebox_body">   
+	            </div>
+	                               	
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+	            </div>
 	        </div>
 	        <!-- /.modal-content -->
 	    </div>
@@ -236,6 +260,8 @@
                 data: frm_delete.serialize(),
                 success: function (data) {
                 	
+                	alert(data);
+                	
                 	/*if (data.success == false)
                 	{
                 		if (data.nameError) $("#form_error_name").addClass("has-error");
@@ -260,9 +286,10 @@
     });
     
     
-    function deleteWebsite(id,name)
+    function deleteWebsite(id,name,url)
     {
-    	$('#modal_delete_site').
+    	$('#modal_delete_span_website').html(name + "(" + url +")");
+    	$('#delete_site_id').val(id);
     	$('#modal_delete_site').modal('show');   	
     }
     
@@ -286,6 +313,16 @@
     	
     	// Show the form in a modal mode
     	$('#modal_add_site').modal('show');
+    }
+    
+    function MessageBox(title,message)
+    {
+    	// Write parameters
+    	$("#messagebox_title").html(title);
+    	$("#messagebox_message").html(message);
+		 	
+    	// Show in a modal mode
+    	$('#modal_message_box').modal('show');
     }
     
     </script>

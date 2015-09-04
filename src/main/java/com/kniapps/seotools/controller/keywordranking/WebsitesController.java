@@ -127,11 +127,17 @@ public class WebsitesController {
         return response;
     }
     
-    @RequestMapping(value="keyword-ranking/deleteWebsite", method=RequestMethod.GET)
-    public @ResponseBody ResponseAddWebsite deleteWebsite(@RequestParam("id") String sID)
+    @RequestMapping(value="keyword-ranking/deleteWebsite", method=RequestMethod.POST)
+    public @ResponseBody ResponseAddWebsite deleteWebsite(@RequestParam("delete_site_id") long siteID)
     {
         ResponseAddWebsite response = new ResponseAddWebsite();
         
+        try {
+            sitesService.removeSite(siteID);
+        } catch ( Exception e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
         return response;
     }

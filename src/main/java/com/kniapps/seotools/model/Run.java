@@ -16,6 +16,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 @Entity
 @Table(name="kr_runs")
 public class Run {
@@ -79,6 +82,7 @@ public class Run {
         this.site = site;
     }
 
+    @Cascade({CascadeType.ALL})
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pos")
     public Set<Position> getPositions() {
         return positions;
