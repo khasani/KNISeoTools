@@ -1,5 +1,6 @@
 package com.kniapps.seotools.controller.keywordranking;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kniapps.seotools.Tools;
+import com.kniapps.seotools.controller.keywordranking.AddWebsiteController.ResponseAddWebsite;
 import com.kniapps.seotools.dao.IUserDao;
 import com.kniapps.seotools.model.Category;
 import com.kniapps.seotools.model.SearchEngine;
@@ -33,6 +35,7 @@ public class WebsiteController {
     @Autowired
     private IWebsitesService sitesService;
     
+    // Page Websites List
     @RequestMapping(value="keyword-ranking/websites", method=RequestMethod.GET)
     public String showWebsitesList(Model model){
                
@@ -52,6 +55,33 @@ public class WebsiteController {
         
         return "keyword-ranking/websites";
     }
+    
+    // AJAX - Get Site Details
+    @RequestMapping(value="keyword-ranking/getSiteDetails", method=RequestMethod.GET)
+    public @ResponseBody ResponseGetWebsiteDetails getSiteDetails(@RequestParam("id") long siteID)
+    { 
+        ResponseGetWebsiteDetails response = new ResponseGetWebsiteDetails();
+        
+        // Get the list of all existing categories
+        try {
+            Site site = sitesService.findSite(siteID);
+            response.success = true;
+            
+            response.name = site.getName();
+            response.category = site.getCategory().getName();
+            response.url = site.getUrl();
+            response.keywords = Tools.convertKeywords(site.getKeywords());
+            response.searchEngine = site.getSearchEngine().getUrl();
+            
+        } catch ( Exception e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            response.success = false;
+            response.message = "Error : Impossible to edit the website !";
+        }
+        
+        return response;
+    }
             
     public IWebsitesService getSitesService() {
         return sitesService;
@@ -59,6 +89,62 @@ public class WebsiteController {
 
     public void setSitesService( IWebsitesService sitesService ) {
         this.sitesService = sitesService;
+    }
+    
+    // JSON Response (AJAX)
+    class ResponseGetWebsiteDetails{
+         
+        boolean success = true;
+        String message = "";
+        String name ="";
+        String url ="";
+        String category ="";
+        String keywords ="";
+        String searchEngine ="";
+        public boolean isSuccess() {
+            return success;
+        }
+        public void setSuccess( boolean success ) {
+            this.success = success;
+        }
+        public String getMessage() {
+            return message;
+        }
+        public void setMessage( String message ) {
+            this.message = message;
+        }
+        public String getName() {
+            return name;
+        }
+        public void setName( String name ) {
+            this.name = name;
+        }
+        public String getUrl() {
+            return url;
+        }
+        public void setUrl( String url ) {
+            this.url = url;
+        }
+        public String getCategory() {
+            return category;
+        }
+        public void setCategory( String category ) {
+            this.category = category;
+        }
+        public String getKeywords() {
+            return keywords;
+        }
+        public void setKeywords( String keywords ) {
+            this.keywords = keywords;
+        }
+        public String getSearchEngine() {
+            return searchEngine;
+        }
+        public void setSearchEngine( String searchEngine ) {
+            this.searchEngine = searchEngine;
+        }
+        
+        
     }
     
 }

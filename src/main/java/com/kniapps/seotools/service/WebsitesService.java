@@ -57,6 +57,12 @@ public class WebsitesService implements IWebsitesService {
         siteDao.removeSite(id);
     }
     
+    @Transactional
+    public Site findSite( long id ) throws Exception {
+        
+        return siteDao.findSite(id);
+    }
+    
     /*********  CATEGORY  ***********************************/
     
     @Transactional(readOnly=true)
@@ -125,11 +131,7 @@ public class WebsitesService implements IWebsitesService {
 
     public void setKeywordDao( IKeywordDao keywordDao ) {
         this.keywordDao = keywordDao;
-    }
-
-
-
-    
+    } 
 
 
 

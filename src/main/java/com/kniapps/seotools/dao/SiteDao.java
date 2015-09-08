@@ -47,16 +47,28 @@ public class SiteDao implements ISiteDao {
 
     public void removeSite( long siteId ) {
         
+        // Load Site
         Session session = getSessionFactory().getCurrentSession();
-        //Object persistentInstance = session.load(Site.class, siteId);
         Site persistentInstance = (Site) session.load(Site.class, siteId);
-        //Site persistentInstance = (Site) session.get( Site.class, siteId );
+        
+        // Loading Keywords (LAZY)
         Hibernate.initialize(persistentInstance.getKeywords());
-        //persistentInstance.getKeywords().size();
-        //Set<Keyword> keys = persistentInstance.getKeywords(); // LAZY
+
+        // Delete
         if (persistentInstance != null) {
             session.delete(persistentInstance);
         }
+    }
+    
+    public Site findSite( long id ) {
+        // Load Site
+        Session session = getSessionFactory().getCurrentSession();
+        Site persistentInstance = (Site) session.load(Site.class, id);
+        
+        // Loading Keywords (LAZY)
+        Hibernate.initialize(persistentInstance.getKeywords());
+        
+        return persistentInstance;
     }
 
     public SessionFactory getSessionFactory() {
@@ -65,8 +77,7 @@ public class SiteDao implements ISiteDao {
 
     public void setSessionFactory( SessionFactory sessionFactory ) {
         this.sessionFactory = sessionFactory;
-    }
-    
+    }    
     
 
 }

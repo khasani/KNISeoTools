@@ -11,5 +11,6 @@ public interface ISiteDao {
     public List<Site> listSites();
     public void addSite(Site site) throws Exception;
     public void removeSite(long siteId);
+    public Site findSite(long id);
     
 }

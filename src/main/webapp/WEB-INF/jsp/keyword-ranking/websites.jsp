@@ -39,7 +39,7 @@
 		                                <tr class="odd gradeX">
 		                                    <td>
 		                                    	<a href="<c:url value="/keyword-ranking/site?id=${websitesList[i].id}"/>"><c:out value="${websitesList[i].name}"/></a> - 
-		                                    	<a href="#"><i class="fa fa-pencil-square-o fa-fw"></i></a>
+		                                    	<a href="#" onclick="editWebsite(${websitesList[i].id})"><i class="fa fa-pencil-square-o fa-fw"></i></a>
 		                                    	<a href="#" onclick="deleteWebsite(${websitesList[i].id},'${websitesList[i].name}','${websitesList[i].url}')"><i class="fa fa-trash-o fa-fw"></i></a>
 		                                    </td>
 		                                    <td><a href="${websitesList[i].url}" target="_blank"><c:out value="${websitesList[i].url}"/></a></td>
@@ -61,14 +61,14 @@
             
 
             <!-- Modal -->           
-            <div style="display: none;" class="modal fade" id="modal_add_site" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div style="display: none;" class="modal fade" id="modal_add_site" tabindex="-1" role="dialog" aria-labelledby="modal_add_site_title" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                     <form role="form" id="form_add_website" method="POST" action="<c:url value="/keyword-ranking/websites"/>">
 
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title" id="myModalLabel">Add a new website</h4>
+                            <h4 class="modal-title" id="modal_add_site_title"></h4>
                         </div>
                         <div class="modal-body">
                                           	                                   
@@ -122,7 +122,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="submit" class="btn btn-primary" id="model_add_website_button_add">Add</button>
                         </div>
                     
                     </form>
@@ -299,6 +299,8 @@
 		$("#form_error_search_engine").removeClass("has-error");
 		
 		// Init fields
+		$("#modal_add_site_title").html("Add website");
+		$("#model_add_website_button_add").html("Add");
 		$("#form_error_message").html("");
 		$("#name").val("");
 		$("#url").val("");
@@ -309,6 +311,47 @@
     	
     	// Show the form in a modal mode
     	$('#modal_add_site').modal('show');
+    }
+    
+    function editWebsite(id)
+    {
+    	// Get Site details
+    	$.ajax({
+            method: "GET",
+            url: "/kniseotools/keyword-ranking/getSiteDetails",
+            data: "id=" + id,
+            dataType: "json",
+            success: function (data) {
+         		
+            	alert(data.name);
+            	
+            	if (data.success == true)
+            	{
+            		// Fill form with site values
+            		$("#form_error_message").html("");
+            		$("#name").val(data.name);
+            		$("#url").val(data.url);
+            		$("#category").val(data.category);
+            		$("#import_from_website").prop("selectedIndex",0);
+            		$("#keywords").val(data.keywords);
+            		
+            		// Chnage name of the form
+            		$("#modal_add_site_title").html("Edit website");
+            		$("#model_add_website_button_add").html("Edit");
+            		
+            	  	// Show the form in a modal mode
+                	$('#modal_add_site').modal('show');
+            		            		
+            	}else{
+            		MessageBox("KNI Seo Tools",data.message);    
+            	}
+            	
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                   alert("AJAX error : " + xhr.status + thrownError);
+            }
+        });
+    	
     }
     
     function MessageBox(title,message)

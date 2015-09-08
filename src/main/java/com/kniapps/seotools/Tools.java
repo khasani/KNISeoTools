@@ -1,7 +1,11 @@
 package com.kniapps.seotools;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+
+
+import java.util.Set;
 
 import com.kniapps.seotools.model.Keyword;
 import com.kniapps.seotools.model.Site;
@@ -41,5 +45,28 @@ public class Tools {
         
         return sReturn;
     }
-
+    
+    public static String convertKeywords(Set<Keyword> list_keywords)
+    {
+        String sReturn = "";
+        
+        if (list_keywords != null)
+        {
+            
+            int i=0;
+            for (Iterator<Keyword> it = list_keywords.iterator(); it.hasNext(); ) 
+            {         
+                Keyword keyword = it.next();
+                i++;
+                
+                sReturn += keyword.getName();
+                
+                if(i < list_keywords.size()) sReturn += ",";
+            }
+            
+        }
+        
+        return sReturn;
+    }
+    
 }
