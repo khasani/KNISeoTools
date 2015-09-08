@@ -23,7 +23,7 @@ import com.kniapps.seotools.model.Site;
 import com.kniapps.seotools.model.User;
 
 
-public class SitesService implements ISitesService {
+public class WebsitesService implements IWebsitesService {
 
     @Autowired
     private ISiteDao siteDao;
@@ -92,8 +92,7 @@ public class SitesService implements ISitesService {
        
         return keywordDao.findKeywords(siteID);
     }
-    
-    
+      
     /********* Getters / Setters  *******************************/
 
     public ISiteDao getSiteDao() {

@@ -64,7 +64,7 @@ public class Note {
 
     @Cascade({CascadeType.ALL})
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "kr_site_id", nullable = false)
+    @JoinColumn(name = "kr_site_id", referencedColumnName = "id", nullable = false)
     public Site getSite() {
         return site;
     }
@@ -72,9 +72,6 @@ public class Note {
     public void setSite( Site site ) {
         this.site = site;
     }
-    
-    
 
-    
     
 }

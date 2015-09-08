@@ -260,17 +260,14 @@
                 data: frm_delete.serialize(),
                 success: function (data) {
                 	
-                	alert(data);
-                	
-                	/*if (data.success == false)
+                	if (data.success == false)
                 	{
-                		if (data.nameError) $("#form_error_name").addClass("has-error");
-                		if (data.urlError) $("#form_error_url").addClass("has-error");
-                		if (data.categoryError) $("#form_error_category").addClass("has-error");
-                		if (data.keywordsError) $("#form_error_keywords").addClass("has-error");
-                		if (data.searchEngineError) $("#form_error_search_engine").addClass("has-error");
-                		$("#form_error_message").html(data.message);
-                	}  */                
+                		frm_delete.modal('hide');
+                		MessageBox("KNI Seo Tools",data.message);              		
+                	}     
+                	
+                	// Reload the current page
+            		location.reload();
                     
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -280,7 +277,6 @@
 
             ev.preventDefault();
         });
-    	
     	
 
     });

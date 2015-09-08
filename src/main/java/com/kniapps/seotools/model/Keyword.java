@@ -56,7 +56,7 @@ public class Keyword {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "kr_site_id", nullable = false)
+    @JoinColumn(name = "kr_site_id", referencedColumnName = "id", nullable = false)
     public Site getSite() {
         return site;
     }

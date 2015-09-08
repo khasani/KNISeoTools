@@ -1,6 +1,7 @@
 package com.kniapps.seotools.model;
 
 import java.util.HashSet;
+import static javax.persistence.GenerationType.IDENTITY;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -41,7 +42,7 @@ public class Site {
     }
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name="id")
     public long getId() {
         return id;
@@ -79,7 +80,7 @@ public class Site {
     }
 
     @Cascade({CascadeType.ALL})
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "site")
     public Set<Note> getNotes() {
         return notes;
     }
@@ -89,7 +90,7 @@ public class Site {
     }
     
     @Cascade({CascadeType.ALL})
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "site")
     public Set<Run> getRuns() {
         return runs;
     }
@@ -99,7 +100,7 @@ public class Site {
     }
 
     @Cascade({CascadeType.ALL})
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "site")
     public Set<Keyword> getKeywords() {
         return keywords;
     }

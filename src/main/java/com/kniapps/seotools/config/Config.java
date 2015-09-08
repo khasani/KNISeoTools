@@ -11,8 +11,8 @@ import com.kniapps.seotools.dao.ISiteDao;
 import com.kniapps.seotools.dao.KeywordDao;
 import com.kniapps.seotools.dao.SearchEngineDao;
 import com.kniapps.seotools.dao.SiteDao;
-import com.kniapps.seotools.service.ISitesService;
-import com.kniapps.seotools.service.SitesService;
+import com.kniapps.seotools.service.IWebsitesService;
+import com.kniapps.seotools.service.WebsitesService;
 
 @Configuration
 public class Config {
@@ -22,8 +22,8 @@ public class Config {
     }
     
     @Bean
-    public ISitesService sitesService(){
-       return new SitesService();
+    public IWebsitesService sitesService(){
+       return new WebsitesService();
     }
     
     @Bean

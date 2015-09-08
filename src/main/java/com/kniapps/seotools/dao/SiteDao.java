@@ -1,10 +1,12 @@
 package com.kniapps.seotools.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kniapps.seotools.model.Category;
+import com.kniapps.seotools.model.Keyword;
 import com.kniapps.seotools.model.Site;
 import com.kniapps.seotools.model.User;
 
@@ -45,7 +48,12 @@ public class SiteDao implements ISiteDao {
     public void removeSite( long siteId ) {
         
         Session session = getSessionFactory().getCurrentSession();
-        Object persistentInstance = session.load(Site.class, siteId);
+        //Object persistentInstance = session.load(Site.class, siteId);
+        Site persistentInstance = (Site) session.load(Site.class, siteId);
+        //Site persistentInstance = (Site) session.get( Site.class, siteId );
+        Hibernate.initialize(persistentInstance.getKeywords());
+        //persistentInstance.getKeywords().size();
+        //Set<Keyword> keys = persistentInstance.getKeywords(); // LAZY
         if (persistentInstance != null) {
             session.delete(persistentInstance);
         }

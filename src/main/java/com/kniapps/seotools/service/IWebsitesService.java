@@ -10,7 +10,7 @@ import com.kniapps.seotools.model.Keyword;
 import com.kniapps.seotools.model.SearchEngine;
 import com.kniapps.seotools.model.Site;
 
-public interface ISitesService {
+public interface IWebsitesService {
 
     // Sites
     List<Site> listSites();
