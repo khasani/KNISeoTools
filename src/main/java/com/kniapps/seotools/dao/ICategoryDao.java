@@ -3,10 +3,10 @@ package com.kniapps.seotools.dao;
 import java.util.List;
 
 import com.kniapps.seotools.model.Category;
+import com.kniapps.seotools.model.Keyword;
 
-public interface ICategoryDao {
+public interface ICategoryDao extends GenericDao<Category, Long> {
     
-    public Category searchCategory(String name);
-    public List<Category> listCategories();
-    public void addCategory(Category category);
+    public Category find(String name);
+
 }

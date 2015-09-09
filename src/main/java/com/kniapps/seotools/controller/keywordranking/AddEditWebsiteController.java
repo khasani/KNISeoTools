@@ -18,12 +18,12 @@ import com.kniapps.seotools.model.Site;
 import com.kniapps.seotools.service.IWebsitesService;
 
 @Controller
-public class AddWebsiteController {
+public class AddEditWebsiteController {
 
     @Autowired
     private IWebsitesService sitesService;
     
-    public AddWebsiteController() {
+    public AddEditWebsiteController() {
         // TODO Auto-generated constructor stub
     }
     
@@ -98,6 +98,17 @@ public class AddWebsiteController {
                 response.message += " Error when adding site in the database. ";   
             }
         }
+        
+        return response;
+    }
+    
+    @RequestMapping(value="keyword-ranking/editWebsite", method=RequestMethod.POST)
+    public @ResponseBody ResponseAddWebsite editWebsite(@RequestParam("name") String sName,@RequestParam("url") String sURL,@RequestParam("category") String sCategory,@RequestParam("keywords") String sKeywords,@RequestParam("search_engine") String sSearchEngine,@RequestParam("form_add_site_id") long id){
+                       
+        ResponseAddWebsite response = new ResponseAddWebsite();
+        
+        
+        
         
         return response;
     }

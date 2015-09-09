@@ -1,83 +1,45 @@
 package com.kniapps.seotools.dao;
 
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.kniapps.seotools.model.Category;
-import com.kniapps.seotools.model.Keyword;
 import com.kniapps.seotools.model.Site;
-import com.kniapps.seotools.model.User;
+
 
 @Transactional
-public class SiteDao implements ISiteDao {
+public class SiteDao extends HibernateDao<Site, Long> implements ISiteDao {
    
-    @Autowired
-    private SessionFactory sessionFactory;
-    
-    public List<Site> listSites() {
-                       
-        Query hqlQuery = getSessionFactory().getCurrentSession().createQuery("from Site");
-        return hqlQuery.list();
-    }
-
-    public void addSite(Site site) throws Exception {
-                         
-        try {
-        
-            getSessionFactory().getCurrentSession().save(site);
-              
-          } catch (Exception ex) {
-        
-            throw ex;
-          }
-    }
-
-    public void removeSite( long siteId ) {
+    public void remove(long siteId) {
         
         // Load Site
-        Session session = getSessionFactory().getCurrentSession();
-        Site persistentInstance = (Site) session.load(Site.class, siteId);
+        Site persistentInstance = (Site) currentSession().load(Site.class, siteId);
         
         // Loading Keywords (LAZY)
         Hibernate.initialize(persistentInstance.getKeywords());
 
         // Delete
         if (persistentInstance != null) {
-            session.delete(persistentInstance);
+            currentSession().delete(persistentInstance);
         }
     }
     
-    public Site findSite( long id ) {
+    @Override
+    public Site find(Long id) {
+        
         // Load Site
-        Session session = getSessionFactory().getCurrentSession();
-        Site persistentInstance = (Site) session.load(Site.class, id);
+        Site persistentInstance = (Site) currentSession().load(Site.class, id);
         
         // Loading Keywords (LAZY)
         Hibernate.initialize(persistentInstance.getKeywords());
         
         return persistentInstance;
     }
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory( SessionFactory sessionFactory ) {
-        this.sessionFactory = sessionFactory;
-    }    
     
 
 }

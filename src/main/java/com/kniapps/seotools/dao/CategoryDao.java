@@ -2,44 +2,25 @@ package com.kniapps.seotools.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kniapps.seotools.model.Category;
+import com.kniapps.seotools.model.Keyword;
 
-public class CategoryDao implements ICategoryDao {
+public class CategoryDao extends HibernateDao<Category, Long> implements ICategoryDao {
 
-    @Autowired
-    private SessionFactory sessionFactory;
-
-    public Category searchCategory( String name ) {
-        Query hqlQuery = getSessionFactory().getCurrentSession().createQuery("from Category where name = ?");
-        List<Category> cat_list = hqlQuery.setString(0,name).list();
+    public Category find(String name) {
         
-        if (cat_list.isEmpty()) return null;
-        else return cat_list.get(0);
-    }
-    
-    public List<Category> listCategories() {
-        Query hqlQuery = getSessionFactory().getCurrentSession().createQuery("from Category");
-        return hqlQuery.list();
-    }
-    
-    public void addCategory(Category category) {
+        Criteria cr = currentSession().createCriteria(Category.class);
+        cr.add(Restrictions.eq("name", name));
+        List<Category> list = cr.list();
         
-        getSessionFactory().getCurrentSession().save(category);
+        if (list.isEmpty()) return null;
+        else return list.get(0);
     }
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory( SessionFactory sessionFactory ) {
-        this.sessionFactory = sessionFactory;
-    }
-
-
-
 
 }

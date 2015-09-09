@@ -42,25 +42,25 @@ public class WebsitesService implements IWebsitesService {
     @Transactional(readOnly=true)
     public List<Site> listSites() {
        
-        return siteDao.listSites();
+        return siteDao.list();
     }
     
     @Transactional
     public void addSite(Site site) throws Exception {
               
-        siteDao.addSite(site);
+        siteDao.add(site);
     }
     
     @Transactional
     public void removeSite(long id) throws Exception {
         
-        siteDao.removeSite(id);
+        siteDao.remove(id);
     }
     
     @Transactional
     public Site findSite( long id ) throws Exception {
         
-        return siteDao.findSite(id);
+        return siteDao.find(id);
     }
     
     /*********  CATEGORY  ***********************************/
@@ -68,13 +68,13 @@ public class WebsitesService implements IWebsitesService {
     @Transactional(readOnly=true)
     public Category findCategory(String sCategory) {
        
-        return categoryDao.searchCategory(sCategory);
+        return categoryDao.find(sCategory);
     }
     
     @Transactional(readOnly=true)
     public List<Category> listCategories() {
        
-        return categoryDao.listCategories();
+        return categoryDao.list();
     }
     
     /*********  SearchEngines  ***********************************/
@@ -82,13 +82,13 @@ public class WebsitesService implements IWebsitesService {
     @Transactional(readOnly=true)
     public SearchEngine findSearchEngine(String sSearchEngine) {
        
-        return searchEngineDao.findSearchEngine(sSearchEngine);
+        return searchEngineDao.find(sSearchEngine);
     }
     
     @Transactional(readOnly=true)
     public List<SearchEngine> listSearchEngines() {
        
-        return searchEngineDao.listSearchEngines();
+        return searchEngineDao.list();
     }
     
     /*********  Keywords  ***********************************/

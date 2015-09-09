@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kniapps.seotools.Tools;
-import com.kniapps.seotools.controller.keywordranking.AddWebsiteController.ResponseAddWebsite;
+import com.kniapps.seotools.controller.keywordranking.AddEditWebsiteController.ResponseAddWebsite;
 import com.kniapps.seotools.dao.IUserDao;
 import com.kniapps.seotools.model.Category;
 import com.kniapps.seotools.model.SearchEngine;

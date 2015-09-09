@@ -5,7 +5,7 @@ import java.util.List;
 import com.kniapps.seotools.model.Category;
 import com.kniapps.seotools.model.Keyword;
 
-public interface IKeywordDao {
+public interface IKeywordDao extends GenericDao<Keyword, Long> {
 
     public List<Keyword> findKeywords(long siteID);
 }

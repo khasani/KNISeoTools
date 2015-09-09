@@ -1,6 +1,8 @@
 package com.kniapps.seotools.dao;
 
-public interface INoteDao {
+import com.kniapps.seotools.model.Note;
+
+public interface INoteDao extends GenericDao<Note, Long>{
 
     
 }

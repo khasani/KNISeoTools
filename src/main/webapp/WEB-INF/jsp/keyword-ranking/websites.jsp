@@ -64,7 +64,7 @@
             <div style="display: none;" class="modal fade" id="modal_add_site" tabindex="-1" role="dialog" aria-labelledby="modal_add_site_title" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                    <form role="form" id="form_add_website" method="POST" action="<c:url value="/keyword-ranking/websites"/>">
+                    <form role="form" id="form_add_website" method="POST" action="">
 
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -117,7 +117,9 @@
 	                               	<span class="input-group-addon">Search Engine</span> 			                          
                                </div>  
                                
-                               <div><H4 id="form_error_message"></H4></div>            
+                               <div><H4 id="form_error_message"></H4></div>     
+                               
+                               <input id="form_add_site_id" name="form_add_site_id" type="hidden"/>      
                                
                         </div>
                         <div class="modal-footer">
@@ -308,13 +310,15 @@
 		$("#import_from_website").prop("selectedIndex",0);
 		$("#keywords").val("");
 		
-    	
+		// Add Site mode
+		$('#form_add_website').attr('action', '/kniseotools/keyword-ranking/websites');
+		
     	// Show the form in a modal mode
     	$('#modal_add_site').modal('show');
     }
     
     function editWebsite(id)
-    {
+    {  		
     	// Get Site details
     	$.ajax({
             method: "GET",
@@ -322,9 +326,7 @@
             data: "id=" + id,
             dataType: "json",
             success: function (data) {
-         		
-            	alert(data.name);
-            	
+         		            	
             	if (data.success == true)
             	{
             		// Fill form with site values
@@ -338,6 +340,12 @@
             		// Chnage name of the form
             		$("#modal_add_site_title").html("Edit website");
             		$("#model_add_website_button_add").html("Edit");
+            		
+            		// Insert site id on a hidden input
+            		$("#form_add_site_id").val(id);    
+            		
+            		// Edit Site mode
+            		$('#form_add_website').attr('action', '/kniseotools/keyword-ranking/editWebsite');
             		
             	  	// Show the form in a modal mode
                 	$('#modal_add_site').modal('show');
