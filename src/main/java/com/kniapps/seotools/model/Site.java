@@ -100,7 +100,7 @@ public class Site {
     }
 
     @Cascade({CascadeType.ALL})
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "site")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "site", orphanRemoval=true)
     public Set<Keyword> getKeywords() {
         return keywords;
     }
@@ -129,12 +129,6 @@ public class Site {
 
     public void setCategory( Category category ) {
         this.category = category;
-    }
-
-
-    
-    
-    
-    
+    }    
     
 }

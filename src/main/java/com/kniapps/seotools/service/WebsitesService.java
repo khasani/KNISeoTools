@@ -52,6 +52,12 @@ public class WebsitesService implements IWebsitesService {
     }
     
     @Transactional
+    public void updateSite(Site site) throws Exception {
+              
+        siteDao.update(site);
+    }
+    
+    @Transactional
     public void removeSite(long id) throws Exception {
         
         siteDao.remove(id);

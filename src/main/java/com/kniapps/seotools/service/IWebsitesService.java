@@ -15,6 +15,7 @@ public interface IWebsitesService {
     // Sites
     List<Site> listSites();
     void addSite(Site site) throws Exception;
+    void updateSite(Site site) throws Exception;
     void removeSite(long id) throws Exception;
     Site findSite(long id) throws Exception;
     

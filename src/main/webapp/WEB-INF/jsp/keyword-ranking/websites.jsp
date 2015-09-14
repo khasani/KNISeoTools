@@ -336,6 +336,7 @@
             		$("#category").val(data.category);
             		$("#import_from_website").prop("selectedIndex",0);
             		$("#keywords").val(data.keywords);
+            		$('#search_engine').val(data.searchEngine);
             		
             		// Chnage name of the form
             		$("#modal_add_site_title").html("Edit website");

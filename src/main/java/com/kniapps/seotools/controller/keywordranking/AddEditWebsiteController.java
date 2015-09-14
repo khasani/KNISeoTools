@@ -1,8 +1,11 @@
 package com.kniapps.seotools.controller.keywordranking;
 
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.commons.validator.routines.UrlValidator;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +25,7 @@ public class AddEditWebsiteController {
 
     @Autowired
     private IWebsitesService sitesService;
-    
-    public AddEditWebsiteController() {
-        // TODO Auto-generated constructor stub
-    }
-    
+        
     @RequestMapping(value="keyword-ranking/websites", method=RequestMethod.POST)
     public @ResponseBody ResponseAddWebsite addNewWebsite(@RequestParam("name") String sName,@RequestParam("url") String sURL,@RequestParam("category") String sCategory,@RequestParam("keywords") String sKeywords,@RequestParam("search_engine") String sSearchEngine){
                        
@@ -78,6 +77,7 @@ public class AddEditWebsiteController {
         }else newSite.setSearchEngine(searchEngine);
         
         // Keyword Management
+        sKeywords= sKeywords.replaceAll("\\s","");
         HashSet<Keyword> list_keywords = Tools.convertKeywords(sKeywords,newSite);
         if (list_keywords.isEmpty())
         {
@@ -107,8 +107,105 @@ public class AddEditWebsiteController {
                        
         ResponseAddWebsite response = new ResponseAddWebsite();
         
-        
-        
+        try {
+            
+            // Load site
+            Site site = sitesService.findSite(id);
+            
+            // Name
+            if(sName.isEmpty())
+            {
+                response.success = false;
+                response.nameError = true;
+                response.message += " The site name can't be empty. ";
+            }
+            else site.setName(sName);
+            
+            // URL Management
+            final String[] schemes={"http","https"};
+            final UrlValidator urlValidator=new UrlValidator(schemes);
+            if (urlValidator.isValid(sURL)) site.setUrl(sURL);
+            else {
+                response.success = false;
+                response.urlError = true;
+                response.message += " URL is not in the good format. ";
+            }
+            
+            // Category Management
+            if(sCategory.isEmpty())
+            {
+                response.success = false;
+                response.categoryError = true;
+                response.message += " The category can't be empty. ";
+            }else
+            {
+                Category category = sitesService.findCategory(sCategory);
+                if (category == null)
+                {
+                    category = new Category(sCategory);
+                }
+                site.setCategory(category);
+            }
+                   
+            // SearchEngine Management
+            SearchEngine searchEngine = sitesService.findSearchEngine(sSearchEngine);
+            if (searchEngine == null)
+            {
+                response.success = false;
+                response.searchEngineError = true;
+                response.message += "Search engine not found. ";
+            }else site.setSearchEngine(searchEngine);
+            
+            // Keyword Management
+            sKeywords= sKeywords.replaceAll("\\s","");
+            Set<Keyword> new_keywords = Tools.convertKeywords(sKeywords,site);
+            Set<Keyword> old_keywords = site.getKeywords();
+            if (new_keywords.isEmpty())
+            {
+                response.success = false;
+                response.keywordsError = true;
+                response.message += " Keywords field can't be empty. ";
+                
+            }else{
+                             
+                // Adding new keywords if they doesn't exists
+                for (Iterator<Keyword> it_new = new_keywords.iterator(); it_new.hasNext(); ) 
+                {         
+                    Keyword new_keyword = it_new.next();
+
+                    if (!Tools.isKeywordInList( new_keyword, old_keywords)) old_keywords.add(new_keyword);    
+                }
+                
+                int i=0;
+                
+                // Removing keywords if they are deleted
+                for (Iterator<Keyword> it_old = old_keywords.iterator(); it_old.hasNext(); ) 
+                {         
+                    Keyword old_keyword = it_old.next();
+
+                    if (!Tools.isKeywordInList(old_keyword, new_keywords)) old_keywords.remove(old_keyword);    
+                }
+ 
+                //site.setKeywords(old_keywords);
+            }
+            
+            // Updating site if the fiels are OK
+            if(response.success == true)
+            {
+                try {
+                    sitesService.updateSite(site);
+                    
+                } catch ( Exception e ) {
+                    response.success = false;
+                    response.message += " Error when updating site in the database. ";   
+                }
+            }
+            
+        } catch ( Exception e ) {
+            
+            response.success = false;
+            response.message += " Error when updating site in the database. ";
+        }
         
         return response;
     }

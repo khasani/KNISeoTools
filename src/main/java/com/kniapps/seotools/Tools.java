@@ -69,4 +69,18 @@ public class Tools {
         return sReturn;
     }
     
+    public static boolean isKeywordInList(Keyword keyword, Set<Keyword> set_keywords)
+    {
+        String sKeywordName = keyword.getName();
+        
+        for (Iterator<Keyword> it = set_keywords.iterator(); it.hasNext(); ) 
+        { 
+            Keyword keyword_temp = it.next();
+            
+            if (sKeywordName.equals(keyword_temp.getName())) return true;
+        }
+        
+        return false;
+    }
+    
 }
