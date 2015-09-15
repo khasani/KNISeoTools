@@ -83,7 +83,7 @@ public class Run {
     }
 
     @Cascade({CascadeType.ALL})
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pos")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "run")
     public Set<Position> getPositions() {
         return positions;
     }

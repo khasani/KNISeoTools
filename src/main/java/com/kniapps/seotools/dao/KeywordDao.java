@@ -7,11 +7,12 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kniapps.seotools.model.Category;
 import com.kniapps.seotools.model.Keyword;
 
-
+@Transactional
 public class KeywordDao extends HibernateDao<Keyword, Long> implements IKeywordDao {
    
     public List<Keyword> findKeywords(long siteID) {

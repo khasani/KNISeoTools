@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -66,7 +67,12 @@ public class WebsitesService implements IWebsitesService {
     @Transactional
     public Site findSite( long id ) throws Exception {
         
-        return siteDao.find(id);
+        Site site = siteDao.find(id);
+        
+        // Loading Keywords (LAZY)
+        Hibernate.initialize(site.getKeywords());
+        
+        return site;
     }
     
     /*********  CATEGORY  ***********************************/

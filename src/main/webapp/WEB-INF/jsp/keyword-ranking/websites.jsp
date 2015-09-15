@@ -38,7 +38,7 @@
 	                                <c:forEach var="i" begin="0" end="${fn:length(websitesList)-1}">
 		                                <tr class="odd gradeX">
 		                                    <td>
-		                                    	<a href="<c:url value="/keyword-ranking/site?id=${websitesList[i].id}"/>"><c:out value="${websitesList[i].name}"/></a> - 
+		                                    	<a href="<c:url value="/keyword-ranking/website?id=${websitesList[i].id}"/>"><c:out value="${websitesList[i].name}"/></a> - 
 		                                    	<a href="#" onclick="editWebsite(${websitesList[i].id})"><i class="fa fa-pencil-square-o fa-fw"></i></a>
 		                                    	<a href="#" onclick="deleteWebsite(${websitesList[i].id},'${websitesList[i].name}','${websitesList[i].url}')"><i class="fa fa-trash-o fa-fw"></i></a>
 		                                    </td>
@@ -191,7 +191,7 @@
 	</div>
 	<!-- /.modal -->
     
-        <script>
+<script>
     $(document).ready(function() {      
     	
     	// Datatable config

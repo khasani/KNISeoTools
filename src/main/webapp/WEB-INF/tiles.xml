@@ -32,9 +32,9 @@
 		    <put-attribute name="body" value="/WEB-INF/jsp/keyword-ranking/websites.jsp" />
 	  </definition>
 	  
-	  <!-- keyword-ranking/keywords -->
-	  <definition name="keyword-ranking/keywords" extends="template">
-		    <put-attribute name="body" value="/WEB-INF/jsp/keyword-ranking/keywords.jsp" />
+	  <!-- keyword-ranking/website -->
+	  <definition name="keyword-ranking/website" extends="template">
+		    <put-attribute name="body" value="/WEB-INF/jsp/keyword-ranking/website.jsp" />
 	  </definition>
 	  
 	  <!-- keyword-ranking/options -->

@@ -35,9 +35,6 @@ public class SiteDao extends HibernateDao<Site, Long> implements ISiteDao {
         // Load Site
         Site persistentInstance = (Site) currentSession().load(Site.class, id);
         
-        // Loading Keywords (LAZY)
-        Hibernate.initialize(persistentInstance.getKeywords());
-        
         return persistentInstance;
     }
     

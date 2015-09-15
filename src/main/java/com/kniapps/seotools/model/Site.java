@@ -80,7 +80,7 @@ public class Site {
     }
 
     @Cascade({CascadeType.ALL})
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "site")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "site", orphanRemoval=true)
     public Set<Note> getNotes() {
         return notes;
     }
@@ -90,7 +90,7 @@ public class Site {
     }
     
     @Cascade({CascadeType.ALL})
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "site")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "site", orphanRemoval=true)
     public Set<Run> getRuns() {
         return runs;
     }

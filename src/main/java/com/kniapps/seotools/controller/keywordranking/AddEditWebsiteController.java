@@ -176,8 +176,6 @@ public class AddEditWebsiteController {
                     if (!Tools.isKeywordInList( new_keyword, old_keywords)) old_keywords.add(new_keyword);    
                 }
                 
-                int i=0;
-                
                 // Removing keywords if they are deleted
                 for (Iterator<Keyword> it_old = old_keywords.iterator(); it_old.hasNext(); ) 
                 {         
@@ -186,7 +184,6 @@ public class AddEditWebsiteController {
                     if (!Tools.isKeywordInList(old_keyword, new_keywords)) old_keywords.remove(old_keyword);    
                 }
  
-                //site.setKeywords(old_keywords);
             }
             
             // Updating site if the fiels are OK
