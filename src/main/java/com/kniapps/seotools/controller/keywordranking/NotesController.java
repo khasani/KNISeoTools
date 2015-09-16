@@ -7,38 +7,39 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kniapps.seotools.service.IWebsitesService;
+import com.kniapps.seotools.service.INotesService;
 
 @Controller
-public class DeleteWebsiteController {
+public class NotesController {
 
     @Autowired
-    private IWebsitesService sitesService;
+    private INotesService notesService;
     
-    @RequestMapping(value="keyword-ranking/deleteWebsite", method=RequestMethod.POST)
-    public @ResponseBody ResponseDelete deleteWebsite(@RequestParam("delete_site_id") long siteID)
+    @RequestMapping(value="keyword-ranking/deleteNote", method=RequestMethod.POST)
+    public @ResponseBody ResponseDelete deleteNote(@RequestParam("delete_note_id") long noteID)
     {
         ResponseDelete response = new ResponseDelete();
         
         try {
-            sitesService.removeSite(siteID);
+            notesService.removeNote(noteID);
             response.success = true;
         } catch ( Exception e ) {
             // TODO Auto-generated catch block
             response.success = false;
-            response.message = "Error when deleting website or dependencies !";
+            response.message = "Error when deleting selected note !";
             e.printStackTrace();
         }
         
         return response;
     }
     
-    public IWebsitesService getSitesService() {
-        return sitesService;
+    
+    public INotesService getNotesService() {
+        return notesService;
     }
 
-    public void setSitesService( IWebsitesService sitesService ) {
-        this.sitesService = sitesService;
+    public void setNotesService( INotesService notesService ) {
+        this.notesService = notesService;
     }
 
 }

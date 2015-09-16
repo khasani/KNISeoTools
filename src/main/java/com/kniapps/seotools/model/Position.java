@@ -8,7 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name="kr_positions")
@@ -63,8 +67,9 @@ public class Position {
         this.run = run;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "kr_keyword_id", nullable = false)
+    //@Cascade({CascadeType.SAVE_UPDATE})
+    @OneToOne
+    @JoinColumn(name="kr_keyword_id",referencedColumnName="id")
     public Keyword getKeyword() {
         return keyword;
     }

@@ -59,7 +59,7 @@
 <div style="display: none;" class="modal fade" id="modal_delete_note" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_delete_note" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-        <form role="form" id="form_delete_website" method="POST" action="<c:url value="/keyword-ranking/deleteNote"/>">
+        <form role="form" id="form_delete_note" method="POST" action="<c:url value="/keyword-ranking/deleteNote"/>">
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -90,13 +90,44 @@
     	$('#datatable-notes').DataTable({
                 responsive: true
         });
+    	
+    	// Delete Note AJAX
+    	var frm_delete_note = $('#form_delete_note');
+    	frm_delete_note.submit(function (ev) {
+            $.ajax({
+                type: frm_delete_note.attr('method'),
+                url: frm_delete_note.attr('action'),
+                data: frm_delete_note.serialize(),
+                success: function (data) {
+                	
+                	if (data.success == false)
+                	{
+                		$('#modal_delete_note').modal('hide'); 
+                		MessageBox("KNI Seo Tools",data.message);              		
+                	} else {
+                		
+                		// Reload the current page
+                		location.reload();
+                	}   
+         	
+                    
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                       alert("AJAX error : " + xhr.status + thrownError);
+                }
+            });
+
+            ev.preventDefault();
+        });
+    	
     });
     
-    // DELETE NOTE
+    // DELETE NOTE Modal Form
     function deleteNote(id)
     {
     	$('#delete_note_id').val(id);
     	$('#modal_delete_note').modal('show');   	
     }
+    
     	
 </script>

@@ -19,6 +19,12 @@ public class NotesService implements INotesService {
         
         return noteDao.list(siteID);
     }
+    
+    @Transactional
+    public void removeNote( long noteID ) {
+        
+        noteDao.remove(noteID);
+    }
 
     public INoteDao getNoteDao() {
         return noteDao;
@@ -27,5 +33,7 @@ public class NotesService implements INotesService {
     public void setNoteDao( INoteDao noteDao ) {
         this.noteDao = noteDao;
     }
+
+    
     
 }
