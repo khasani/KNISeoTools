@@ -65,12 +65,29 @@ public class WebsitesService implements IWebsitesService {
     }
     
     @Transactional
-    public Site findSite( long id ) throws Exception {
+    public Site loadSiteById( long id ) throws Exception {
         
         Site site = siteDao.find(id);
         
         // Loading Keywords (LAZY)
         Hibernate.initialize(site.getKeywords());
+        
+        return site;
+    }
+    
+    @Transactional
+    public Site loadFullSiteById( long id ) throws Exception {
+        
+        Site site = siteDao.find(id);
+        
+        // Loading Keywords (LAZY)
+        Hibernate.initialize(site.getKeywords());
+        
+        // Loading Notes (LAZY)
+        Hibernate.initialize(site.getNotes());
+        
+        // Loading Runs (LAZY)
+        Hibernate.initialize(site.getRuns());
         
         return site;
     }

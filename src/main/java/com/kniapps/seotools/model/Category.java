@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -15,6 +17,7 @@ public class Category {
 
     private long id;
     private String name;
+    private Site site;
     
     public Category() {
     }
@@ -42,6 +45,18 @@ public class Category {
     public void setName( String name ) {
         this.name = name;
     }
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    public Site getSite() {
+        return site;
+    }
+
+    public void setSite( Site site ) {
+        this.site = site;
+    }
+    
+    
 
     
     

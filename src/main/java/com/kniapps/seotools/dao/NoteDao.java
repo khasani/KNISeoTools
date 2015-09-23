@@ -24,7 +24,7 @@ public class NoteDao extends HibernateDao<Note, Long> implements INoteDao {
         else return list;
     }
 
-    public void remove( long noteID ) {
+    public void remove(long noteID) {
         
         // Load Note
         Note note = (Note) currentSession().load(Note.class, noteID);

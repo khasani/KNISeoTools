@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
@@ -20,6 +22,7 @@ public class Keyword {
     private long id;
     private String name;
     private Site site;
+    private Position position;
     
     public Keyword() {
     }
@@ -64,6 +67,18 @@ public class Keyword {
     public void setSite( Site site ) {
         this.site = site;
     }
+
+    @OneToOne(fetch= FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition( Position position ) {
+        this.position = position;
+    }
+    
+    
     
 
 }

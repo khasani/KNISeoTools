@@ -67,9 +67,8 @@ public class Position {
         this.run = run;
     }
 
-    //@Cascade({CascadeType.SAVE_UPDATE})
-    @OneToOne
-    @JoinColumn(name="kr_keyword_id",referencedColumnName="id")
+    @Cascade({CascadeType.SAVE_UPDATE})
+    @OneToOne(fetch = FetchType.LAZY,mappedBy="position")
     public Keyword getKeyword() {
         return keyword;
     }

@@ -37,16 +37,13 @@ public class RunsWebsiteController {
         
         try {
             // Get site
-            Site site = websiteService.findSite(siteID);
+            Site site = websiteService.loadFullSiteById(siteID);
             model.addAttribute("site", site);
             
             // Get runs
-            List<Run> list_runs = runsService.findRunsLastMonth(siteID);
-            model.addAttribute("runs", list_runs);   
+            //List<Run> list_runs = runsService.findRunsLastMonth(siteID);
+            //model.addAttribute("runs", list_runs);   
             
-            // Get Notes
-            List<Note> list_notes = notesService.listNotes(siteID);
-            model.addAttribute("notes", list_notes); 
             
         } catch ( Exception e1 ) {
             // TODO Auto-generated catch block

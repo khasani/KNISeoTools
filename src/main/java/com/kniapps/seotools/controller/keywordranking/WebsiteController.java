@@ -64,7 +64,7 @@ public class WebsiteController {
         
         // Get the list of all existing categories
         try {
-            Site site = sitesService.findSite(siteID);
+            Site site = sitesService.loadSiteById(siteID);
             response.success = true;
             
             response.name = site.getName();

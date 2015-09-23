@@ -110,7 +110,7 @@ public class AddEditWebsiteController {
         try {
             
             // Load site
-            Site site = sitesService.findSite(id);
+            Site site = sitesService.loadSiteById(id);
             
             // Name
             if(sName.isEmpty())

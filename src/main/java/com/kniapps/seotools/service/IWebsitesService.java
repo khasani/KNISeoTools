@@ -17,7 +17,8 @@ public interface IWebsitesService {
     void addSite(Site site) throws Exception;
     void updateSite(Site site) throws Exception;
     void removeSite(long id) throws Exception;
-    Site findSite(long id) throws Exception;
+    Site loadFullSiteById(long id) throws Exception;
+    Site loadSiteById(long id) throws Exception;
     
     // Categories
     Category findCategory(String sCategory);

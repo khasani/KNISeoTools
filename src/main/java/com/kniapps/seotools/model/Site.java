@@ -110,8 +110,7 @@ public class Site {
     }
 
     @Cascade({CascadeType.SAVE_UPDATE})
-    @OneToOne
-    @JoinColumn(name="kr_search_engine_id", referencedColumnName="id")
+    @OneToOne(mappedBy="site")
     public SearchEngine getSearchEngine() {
         return searchEngine;
     }

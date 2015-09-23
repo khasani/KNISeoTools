@@ -35,6 +35,7 @@
            </thead>
            
            <tbody>
+           		<c:set var="notes" scope="session" value="${site.notes.toArray()}"/>
            		<c:if test="${fn:length(notes) > 0}">
                     <c:forEach var="i" begin="0" end="${fn:length(notes)-1}">
                      <tr class="odd gradeX">
