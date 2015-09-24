@@ -62,7 +62,6 @@ public class Note {
         this.description = description;
     }
 
-    @Cascade({CascadeType.ALL})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "kr_site_id", referencedColumnName = "id", nullable = false)
     public Site getSite() {

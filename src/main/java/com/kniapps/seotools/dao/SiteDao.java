@@ -33,7 +33,7 @@ public class SiteDao extends HibernateDao<Site, Long> implements ISiteDao {
     public Site find(Long id) {
         
         // Load Site
-        Site persistentInstance = (Site) currentSession().get(Site.class, id);
+        Site persistentInstance = (Site) currentSession().load(Site.class, id);
         
         return persistentInstance;
     }

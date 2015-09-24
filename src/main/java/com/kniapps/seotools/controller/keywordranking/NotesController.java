@@ -1,5 +1,7 @@
 package com.kniapps.seotools.controller.keywordranking;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kniapps.seotools.model.Note;
 import com.kniapps.seotools.service.INotesService;
 
 @Controller
@@ -16,9 +19,9 @@ public class NotesController {
     private INotesService notesService;
     
     @RequestMapping(value="keyword-ranking/deleteNote", method=RequestMethod.POST)
-    public @ResponseBody ResponseDelete deleteNote(@RequestParam("delete_note_id") long noteID)
+    public @ResponseBody ResponseBoolean deleteNote(@RequestParam("delete_note_id") long noteID)
     {
-        ResponseDelete response = new ResponseDelete();
+        ResponseBoolean response = new ResponseBoolean();
         
         try {
             notesService.removeNote(noteID);
@@ -31,6 +34,23 @@ public class NotesController {
         }
         
         return response;
+    }
+    
+    @RequestMapping(value="keyword-ranking/addNote", method=RequestMethod.POST)
+    public String addNote(@RequestParam("text_add_note") String sNote,@RequestParam("site_id") long siteID)
+    {
+                
+        try {
+            
+            Note note = new Note(new Date(),sNote);
+            notesService.addNote(note,siteID);
+            
+        } catch ( Exception e ) {
+
+            e.printStackTrace();
+        }
+        
+        return "redirect:website?id=" + String.valueOf(siteID);
     }
     
     

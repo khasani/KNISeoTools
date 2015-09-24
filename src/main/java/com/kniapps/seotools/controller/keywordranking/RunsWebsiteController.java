@@ -65,12 +65,14 @@ public class RunsWebsiteController {
         
         Position pos1 = new Position();
         pos1.setPos(10);
+        list_keywords.get( 0 ).setPosition( pos1 );
         pos1.setKeyword( list_keywords.get( 0 ) );
         pos1.setUrl("http://test.com");
         pos1.setRun( run );
         
         Position pos2 = new Position();
         pos2.setPos(15);
+        list_keywords.get( 1 ).setPosition( pos2 );
         pos2.setKeyword( list_keywords.get( 1 ) );
         pos2.setUrl("http://test.com/test2");
         pos2.setRun( run );
@@ -86,7 +88,7 @@ public class RunsWebsiteController {
             e1.printStackTrace();
         }
 
-        return "redirect:website?id=1";
+        return "redirect:website?id=" + String.valueOf(siteID);
     }
 
     public IRunsService getRunsService() {

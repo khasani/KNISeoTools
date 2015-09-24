@@ -8,5 +8,6 @@ public interface INotesService {
 
     public List<Note> listNotes(long siteID);
     public void removeNote(long noteID);
+    public void addNote( Note note, long siteID );
     
 }

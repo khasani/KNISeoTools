@@ -50,6 +50,13 @@
            </tbody>
            
         </table>
+        <br>
+        <form role="form" id="form_add_note" method="POST" action="<c:url value="/keyword-ranking/addNote"/>">     
+        	<textarea id="text_add_note" name="text_add_note" rows="4"></textarea>
+        	<div style="padding-top:8px;"><button type="submit" class="btn btn-primary">Add note</button></div>
+        	<input id="site_id" name="site_id" type="hidden" value="${site.id}"/>
+        </form>
+        
            
     </div>
     <!-- /.col-lg-12 -->

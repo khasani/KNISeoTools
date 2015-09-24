@@ -16,9 +16,9 @@ public class DeleteWebsiteController {
     private IWebsitesService sitesService;
     
     @RequestMapping(value="keyword-ranking/deleteWebsite", method=RequestMethod.POST)
-    public @ResponseBody ResponseDelete deleteWebsite(@RequestParam("delete_site_id") long siteID)
+    public @ResponseBody ResponseBoolean deleteWebsite(@RequestParam("delete_site_id") long siteID)
     {
-        ResponseDelete response = new ResponseDelete();
+        ResponseBoolean response = new ResponseBoolean();
         
         try {
             sitesService.removeSite(siteID);

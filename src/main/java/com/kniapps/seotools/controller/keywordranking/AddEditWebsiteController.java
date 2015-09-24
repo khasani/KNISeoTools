@@ -154,7 +154,10 @@ public class AddEditWebsiteController {
                 response.success = false;
                 response.searchEngineError = true;
                 response.message += "Search engine not found. ";
-            }else site.setSearchEngine(searchEngine);
+            }else{
+                ///searchEngine.setSite(site);
+                site.setSearchEngine(searchEngine);
+            }
             
             // Keyword Management
             sKeywords= sKeywords.replaceAll("\\s","");

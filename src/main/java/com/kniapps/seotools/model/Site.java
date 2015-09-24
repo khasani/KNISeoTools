@@ -99,7 +99,7 @@ public class Site {
         this.runs = runs;
     }
 
-    @Cascade({CascadeType.ALL})
+    @Cascade(CascadeType.ALL)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "site", orphanRemoval=true)
     public Set<Keyword> getKeywords() {
         return keywords;
@@ -109,8 +109,10 @@ public class Site {
         this.keywords = keywords;
     }
 
-    @Cascade({CascadeType.SAVE_UPDATE})
-    @OneToOne(mappedBy="site")
+    @Cascade(CascadeType.SAVE_UPDATE)
+    //@OneToOne(mappedBy="site")
+    @OneToOne
+    @JoinColumn(name="kr_search_engine_id",referencedColumnName="id")
     public SearchEngine getSearchEngine() {
         return searchEngine;
     }
@@ -119,7 +121,7 @@ public class Site {
         this.searchEngine = searchEngine;
     }
 
-    @Cascade({CascadeType.SAVE_UPDATE})
+    @Cascade(CascadeType.SAVE_UPDATE)
     @OneToOne
     @JoinColumn(name="kr_category_id",referencedColumnName="id")
     public Category getCategory() {

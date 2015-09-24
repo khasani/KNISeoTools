@@ -1,7 +1,7 @@
 package com.kniapps.seotools.controller.keywordranking;
 
 //JSON Response (AJAX)
-public class ResponseDelete {
+public class ResponseBoolean {
 
     boolean success = true;
     String message = "";
