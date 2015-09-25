@@ -1,5 +1,8 @@
 package com.kniapps.seotools.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -22,7 +26,7 @@ public class Keyword {
     private long id;
     private String name;
     private Site site;
-    private Position position;
+    private Set<Position> positions = new HashSet<Position>(0);
     
     public Keyword() {
     }
@@ -58,7 +62,7 @@ public class Keyword {
         this.name = name;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "kr_site_id", referencedColumnName = "id", nullable = false)
     public Site getSite() {
         return site;
@@ -68,17 +72,23 @@ public class Keyword {
         this.site = site;
     }
 
-    @OneToOne(fetch= FetchType.LAZY)
-    @PrimaryKeyJoinColumn
-    public Position getPosition() {
+
+    /*public Position getPosition() {
         return position;
     }
 
     public void setPosition( Position position ) {
         this.position = position;
+    }*/
+
+    @Cascade({CascadeType.SAVE_UPDATE})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "keyword", orphanRemoval=true)
+    public Set<Position> getPositions() {
+        return positions;
     }
-    
-    
-    
+
+    public void setPositions( Set<Position> positions ) {
+        this.positions = positions;
+    }
 
 }
