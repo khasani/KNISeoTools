@@ -1,4 +1,4 @@
-package com.kniapps.seotools.controller.keywordranking;
+package com.kniapps.seotools.service;
 
 //JSON Response (AJAX)
 public class ResponseBoolean {

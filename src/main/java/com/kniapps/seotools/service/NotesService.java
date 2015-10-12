@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kniapps.seotools.dao.INoteDao;
-import com.kniapps.seotools.dao.IRunDao;
 import com.kniapps.seotools.dao.ISiteDao;
 import com.kniapps.seotools.model.Note;
 import com.kniapps.seotools.model.Site;

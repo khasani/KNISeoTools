@@ -16,6 +16,11 @@
 <div class="row">
     <div class="col-lg-12">
         Results table
+        
+	    <form role="form" id="form_launch_run" method="POST" action="<c:url value="/keyword-ranking/launchRun"/>">         	
+	    	<a class="btn btn-primary" onclick="launchRunModal(${site.id})" role="button">Launch run</a>
+	    </form>
+        
     </div>
     <!-- /.col-lg-12 -->
 </div>
@@ -90,6 +95,37 @@
 </div>
 <!-- /.modal -->
 
+<!-- MODAL LAUNCH RUN -->           
+<div style="display: none;" class="modal fade" id="modal_launch_run" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_launch_run" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel_launch_run">Launch Run</h4>
+            </div>
+            
+           <div class="modal-body">
+               <p>
+                   <strong><span>Run in progress...</span></strong>
+               </p>
+               <div class="progress progress-striped active">
+                   <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                       
+                   </div>
+               </div>
+           </div>
+                               	
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <!-- JAVASCRIPTS -->
 <script>
     $(document).ready(function() {      
@@ -128,6 +164,7 @@
             ev.preventDefault();
         });
     	
+    	
     });
     
     // DELETE NOTE Modal Form
@@ -135,6 +172,37 @@
     {
     	$('#delete_note_id').val(id);
     	$('#modal_delete_note').modal('show');   	
+    }
+    
+    // OPEN MODAL FORM Add Run
+    function launchRunModal(id)
+    {
+    	// Show the modal window
+    	$('#modal_launch_run').modal('show');
+    	
+    	// AJAX Request to calculate run
+    	var frm_launch_run = $('#form_launch_run');
+    	$.ajax({
+            method: "POST",
+            url: frm_launch_run.attr('action'),
+            data: "id=" + id,
+            dataType: "json",
+            success: function (data) {
+         		            	
+            	if (data.success == true)
+            	{
+            		alert(data)  	
+            		            		
+            	}else{
+            		MessageBox("KNI Seo Tools",data.message);    
+            	}
+            	
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                   alert("AJAX error : " + xhr.status + thrownError);
+            }
+        });
+    	
     }
     
     	

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kniapps.seotools.model.Note;
 import com.kniapps.seotools.service.INotesService;
+import com.kniapps.seotools.service.ResponseBoolean;
 
 @Controller
 public class NotesController {
@@ -25,11 +26,11 @@ public class NotesController {
         
         try {
             notesService.removeNote(noteID);
-            response.success = true;
+            response.setSuccess( true );
         } catch ( Exception e ) {
             // TODO Auto-generated catch block
-            response.success = false;
-            response.message = "Error when deleting selected note !";
+            response.setSuccess( false );         
+            response.setMessage( "Error when deleting selected note !" );
             e.printStackTrace();
         }
         

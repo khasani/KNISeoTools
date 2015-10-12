@@ -1,20 +1,16 @@
 package com.kniapps.seotools.controller.keywordranking;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kniapps.seotools.model.Keyword;
-import com.kniapps.seotools.model.Note;
-import com.kniapps.seotools.model.Position;
 import com.kniapps.seotools.model.Run;
 import com.kniapps.seotools.model.Site;
 import com.kniapps.seotools.service.INotesService;
@@ -54,8 +50,8 @@ public class RunsWebsiteController {
         return "keyword-ranking/website";
     }
     
-    @RequestMapping(value="keyword-ranking/addRun", method=RequestMethod.GET)
-    public String addRun(Model model, @RequestParam("id") long siteID){
+    @RequestMapping(value="keyword-ranking/launchRun", method=RequestMethod.POST)
+    public @ResponseBody Run addRun(Model model, @RequestParam("id") long siteID){
         
         Run run = new Run();
         run.setDate(new Date());
@@ -72,7 +68,7 @@ public class RunsWebsiteController {
             e1.printStackTrace();
         }
 
-        return "redirect:website?id=" + String.valueOf(siteID);
+        return run;
     }
 
     public IRunsService getRunsService() {

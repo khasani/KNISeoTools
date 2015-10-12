@@ -21,8 +21,6 @@ public class SearchEngineDao extends HibernateDao<SearchEngine, Long> implements
     }
 
     public SearchEngine find(String sURL) {
-        /*Query hqlQuery = currentSession().createQuery("from SearchEngine where url = ?");
-        List<SearchEngine> list = hqlQuery.setString(0,sURL).list();*/
         
         Criteria cr = currentSession().createCriteria(SearchEngine.class);
         cr.add(Restrictions.eq("url", sURL));
@@ -31,10 +29,5 @@ public class SearchEngineDao extends HibernateDao<SearchEngine, Long> implements
         if (list.isEmpty()) return null;
         else return list.get(0);
     }
-
-    /*public List<SearchEngine> list() {
-        Query hqlQuery = getSessionFactory().getCurrentSession().createQuery("from SearchEngine");
-        return hqlQuery.list();
-    }*/
 
 }

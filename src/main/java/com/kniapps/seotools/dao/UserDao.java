@@ -3,12 +3,6 @@ package com.kniapps.seotools.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.PersistenceContext;
-
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-
 import com.kniapps.seotools.model.User;
  
  

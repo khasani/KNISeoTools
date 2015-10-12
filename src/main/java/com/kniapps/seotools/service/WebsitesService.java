@@ -1,27 +1,23 @@
 package com.kniapps.seotools.service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.PersistenceContext;
-
+import org.apache.commons.validator.routines.UrlValidator;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kniapps.seotools.Tools;
 import com.kniapps.seotools.dao.ICategoryDao;
-import com.kniapps.seotools.dao.IKeywordDao;
 import com.kniapps.seotools.dao.ISearchEngineDao;
 import com.kniapps.seotools.dao.ISiteDao;
-import com.kniapps.seotools.dao.SiteDao;
 import com.kniapps.seotools.model.Category;
 import com.kniapps.seotools.model.Keyword;
 import com.kniapps.seotools.model.SearchEngine;
 import com.kniapps.seotools.model.Site;
-import com.kniapps.seotools.model.User;
 
 
 public class WebsitesService implements IWebsitesService {
@@ -35,9 +31,6 @@ public class WebsitesService implements IWebsitesService {
     @Autowired
     private ISearchEngineDao searchEngineDao;
     
-    @Autowired
-    private IKeywordDao keywordDao;
-    
     /*********  SITES  ***********************************/
     
     @Transactional(readOnly=true)
@@ -47,36 +40,241 @@ public class WebsitesService implements IWebsitesService {
     }
     
     @Transactional
-    public void addSite(Site site) throws Exception {
-              
-        siteDao.add(site);
+    public ResponseAddWebsite createSite(String sName,String sURL,String sCategory,String sKeywords,String sSearchEngine){
+               
+        ResponseAddWebsite response = new ResponseAddWebsite();
+        
+        // Site creation
+        Site newSite = new Site();
+        
+        if(sName.isEmpty())
+        {
+            response.success = false;
+            response.nameError = true;
+            response.message += " The site name can't be empty. ";
+        }
+        else newSite.setName(sName);
+        
+        // URL Management
+        final String[] schemes={"http","https"};
+        final UrlValidator urlValidator=new UrlValidator(schemes);
+        if (urlValidator.isValid(sURL)) newSite.setUrl(sURL);
+        else {
+            response.success = false;
+            response.urlError = true;
+            response.message += " URL is not in the good format. ";
+        }
+        
+        // Category Management
+        if(sCategory.isEmpty())
+        {
+            response.success = false;
+            response.categoryError = true;
+            response.message += " The category can't be empty. ";
+        }else
+        {
+            Category category = categoryDao.find(sCategory);
+            if (category == null)
+            {
+                category = new Category(sCategory);
+            }
+            newSite.setCategory(category);
+        }
+        
+        // SearchEngine Management
+        SearchEngine searchEngine = searchEngineDao.find(sSearchEngine);
+        if (searchEngine == null)
+        {
+            response.success = false;
+            response.searchEngineError = true;
+            response.message += "Search engine not found. ";
+        }else newSite.setSearchEngine(searchEngine);
+        
+        // Keyword Management
+        sKeywords= sKeywords.replaceAll("\\s","");
+        HashSet<Keyword> list_keywords = Tools.convertKeywords(sKeywords,newSite);
+        if (list_keywords.isEmpty())
+        {
+            response.success = false;
+            response.keywordsError = true;
+            response.message += " Keywords field can't be empty. ";
+            
+        }else newSite.setKeywords(list_keywords);
+        
+        if(response.success == true)
+        {
+        
+            try {
+                siteDao.add(newSite);
+                
+            } catch ( Exception e ) {
+                response.success = false;
+                response.message += " Error when adding site in the database. ";   
+            }
+        }
+        
+        return response;
     }
     
     @Transactional
-    public void updateSite(Site site) throws Exception {
-              
-        siteDao.update(site);
+    public ResponseAddWebsite editSite(String sName,String sURL,String sCategory,String sKeywords,String sSearchEngine,long id)
+    {
+                                        
+        ResponseAddWebsite response = new ResponseAddWebsite();
+        
+        try {
+            
+            // Load site
+            Site site = siteDao.find(id);           
+            
+            // Name
+            if(sName.isEmpty())
+            {
+                response.success = false;
+                response.nameError = true;
+                response.message += " The site name can't be empty. ";
+            }
+            else site.setName(sName);
+            
+            // URL Management
+            final String[] schemes={"http","https"};
+            final UrlValidator urlValidator=new UrlValidator(schemes);
+            if (urlValidator.isValid(sURL)) site.setUrl(sURL);
+            else {
+                response.success = false;
+                response.urlError = true;
+                response.message += " URL is not in the good format. ";
+            }
+            
+            // Category Management
+            if(sCategory.isEmpty())
+            {
+                response.success = false;
+                response.categoryError = true;
+                response.message += " The category can't be empty. ";
+            }else
+            {
+                Category category = categoryDao.find(sCategory);
+                if (category == null)
+                {
+                    category = new Category(sCategory);
+                }
+                site.setCategory(category);
+            }
+                   
+            // SearchEngine Management
+            SearchEngine searchEngine = searchEngineDao.find(sSearchEngine);
+            if (searchEngine == null)
+            {
+                response.success = false;
+                response.searchEngineError = true;
+                response.message += "Search engine not found. ";
+            }else{
+                ///searchEngine.setSite(site);
+                site.setSearchEngine(searchEngine);
+            }
+            
+            // Keyword Management
+            sKeywords= sKeywords.replaceAll("\\s","");
+            Set<Keyword> new_keywords = Tools.convertKeywords(sKeywords,site);
+            Set<Keyword> old_keywords = site.getKeywords();
+            if (new_keywords.isEmpty())
+            {
+                response.success = false;
+                response.keywordsError = true;
+                response.message += " Keywords field can't be empty. ";
+                
+            }else{
+                             
+                // Adding new keywords if they doesn't exists
+                for (Iterator<Keyword> it_new = new_keywords.iterator(); it_new.hasNext(); ) 
+                {         
+                    Keyword new_keyword = it_new.next();
+
+                    if (!Tools.isKeywordInList( new_keyword, old_keywords)) old_keywords.add(new_keyword);    
+                }
+                
+                // Removing keywords if they are deleted
+                for (Iterator<Keyword> it_old = old_keywords.iterator(); it_old.hasNext(); ) 
+                {         
+                    Keyword old_keyword = it_old.next();
+
+                    if (!Tools.isKeywordInList(old_keyword, new_keywords)) it_old.remove();
+                }
+ 
+            }
+            
+            // Updating site if the fiels are OK
+            if(response.success == true)
+            {
+                try {
+                    siteDao.update(site);
+                    
+                } catch ( Exception e ) {
+                    response.success = false;
+                    response.message += " Error when updating site in the database. ";   
+                }
+            }
+            
+        } catch ( Exception e ) {
+            
+            response.success = false;
+            response.message += " Error when updating site in the database. ";
+        }
+            
+            return response;
     }
     
     @Transactional
-    public void removeSite(long id) throws Exception {
+    public ResponseBoolean removeSite(long id) {
         
-        siteDao.remove(id);
+        ResponseBoolean response = new ResponseBoolean();
+        
+        try {
+            siteDao.remove(id);
+            response.success = true;
+        } catch ( Exception e ) {
+            // TODO Auto-generated catch block
+            response.success = false;
+            response.message = "Error when deleting website or dependencies !";
+            e.printStackTrace();
+        }
+        
+        return response;
     }
     
     @Transactional
-    public Site loadSiteById( long id ) throws Exception {
+    public ResponseGetWebsiteDetails loadSiteDetails( long id ){
         
-        Site site = siteDao.find(id);
+        ResponseGetWebsiteDetails response = new ResponseGetWebsiteDetails();
         
-        // Loading Keywords (LAZY)
-        Hibernate.initialize(site.getKeywords());
+        // Get the list of all existing categories
+        try {
+            Site site = siteDao.find(id);
+            
+            // Loading Keywords (LAZY)
+            Hibernate.initialize(site.getKeywords());
+            
+            response.success = true;
+            
+            response.name = site.getName();
+            response.category = site.getCategory().getName();
+            response.url = site.getUrl();
+            response.keywords = Tools.convertKeywords(site.getKeywords());
+            response.searchEngine = site.getSearchEngine().getUrl();
+            
+        } catch ( Exception e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            response.success = false;
+            response.message = "Error : Impossible to edit the website !";
+        }
         
-        return site;
+        return response;
     }
     
     @Transactional
-    public Site loadFullSiteById( long id ) throws Exception {
+    public Site loadFullSiteById( long id ){
         
         Site site = siteDao.find(id);
         
@@ -95,12 +293,6 @@ public class WebsitesService implements IWebsitesService {
     /*********  CATEGORY  ***********************************/
     
     @Transactional(readOnly=true)
-    public Category findCategory(String sCategory) {
-       
-        return categoryDao.find(sCategory);
-    }
-    
-    @Transactional(readOnly=true)
     public List<Category> listCategories() {
        
         return categoryDao.list();
@@ -109,23 +301,9 @@ public class WebsitesService implements IWebsitesService {
     /*********  SearchEngines  ***********************************/
     
     @Transactional(readOnly=true)
-    public SearchEngine findSearchEngine(String sSearchEngine) {
-       
-        return searchEngineDao.find(sSearchEngine);
-    }
-    
-    @Transactional(readOnly=true)
     public List<SearchEngine> listSearchEngines() {
        
         return searchEngineDao.list();
-    }
-    
-    /*********  Keywords  ***********************************/
-    
-    @Transactional(readOnly=true)
-    public List<Keyword> findKeywords(long siteID) {
-       
-        return keywordDao.findKeywords(siteID);
     }
       
     /********* Getters / Setters  *******************************/
@@ -154,14 +332,5 @@ public class WebsitesService implements IWebsitesService {
         this.searchEngineDao = searchEngineDao;
     }
 
-    public IKeywordDao getKeywordDao() {
-        return keywordDao;
-    }
-
-    public void setKeywordDao( IKeywordDao keywordDao ) {
-        this.keywordDao = keywordDao;
-    } 
-
-
-
+    
 }

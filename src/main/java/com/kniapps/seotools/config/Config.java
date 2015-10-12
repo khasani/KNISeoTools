@@ -15,9 +15,11 @@ import com.kniapps.seotools.dao.NoteDao;
 import com.kniapps.seotools.dao.RunDao;
 import com.kniapps.seotools.dao.SearchEngineDao;
 import com.kniapps.seotools.dao.SiteDao;
+import com.kniapps.seotools.service.IKeywordService;
 import com.kniapps.seotools.service.INotesService;
 import com.kniapps.seotools.service.IRunsService;
 import com.kniapps.seotools.service.IWebsitesService;
+import com.kniapps.seotools.service.KeywordService;
 import com.kniapps.seotools.service.NotesService;
 import com.kniapps.seotools.service.RunsService;
 import com.kniapps.seotools.service.WebsitesService;
@@ -45,6 +47,11 @@ public class Config {
     public INotesService notesService(){
        return new NotesService();
     }   
+    
+    @Bean
+    public IKeywordService keywordService(){
+       return new KeywordService();
+    }  
     
     /************ DAO **********************/
     
