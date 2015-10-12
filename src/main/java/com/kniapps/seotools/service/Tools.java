@@ -1,4 +1,4 @@
-package com.kniapps.seotools;
+package com.kniapps.seotools.service;
 
 import java.util.HashSet;
 import java.util.Iterator;

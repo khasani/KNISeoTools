@@ -10,7 +10,6 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kniapps.seotools.Tools;
 import com.kniapps.seotools.dao.ICategoryDao;
 import com.kniapps.seotools.dao.ISearchEngineDao;
 import com.kniapps.seotools.dao.ISiteDao;

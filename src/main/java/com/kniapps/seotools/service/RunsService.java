@@ -25,31 +25,9 @@ public class RunsService implements IRunsService {
     
     @Autowired
     private IKeywordDao keywordDao;
-        
+           
     @Transactional
-    public List<Run> findRunsLastMonth(long siteID) {
-
-        // Today date
-        Date date_today = new Date();
-        
-        // Today -30 days
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date_today);
-        cal.add(Calendar.DATE, -30);
-        
-        // Get data from DAO
-        List<Run> list = runDao.find(siteID, cal.getTime(), date_today);
-        
-        // Loading Keywords (LAZY)
-        list.get(0).getPositions().size();
-        
-        if (list.isEmpty()) return null;
-        else return list;
-        
-    }
-    
-    @Transactional
-    public List<Run> findRunsLastYear(long siteID) {
+    public List<Run> findRunsLastDays(long siteID, int iDays) {
         
         // Today date
         Date date_today = new Date();
@@ -57,11 +35,10 @@ public class RunsService implements IRunsService {
         // Today -365 days
         Calendar cal = Calendar.getInstance();
         cal.setTime(date_today);
-        cal.add(Calendar.DATE, -365);
+        cal.add(Calendar.DATE, -iDays);
         
         // Get data from DAO
         List<Run> list = runDao.find(siteID, cal.getTime(), date_today);
-        
         
         if (list.isEmpty()) return null;
         else return list;
@@ -74,10 +51,23 @@ public class RunsService implements IRunsService {
     }
     
     @Transactional
-    public void addRun( Run run, long siteID ) {
+    public Run launchRun(long siteID) {
         
-        // Loading
+        // Loading site
         Site site = siteDao.find(siteID);
+        
+        // Creating a new Run
+        Run run = new Run();
+        run.setDate(new Date());
+        
+        // Get site PR
+        int i = GoogleSeoHelper.getPR(site.getUrl());
+        run.setPr(i);
+        
+        // Get Indexed pages
+        run.setIndexedPages(4000);
+        
+
         
         List<Keyword> list_keywords = keywordDao.findKeywords( siteID );
         
@@ -104,7 +94,16 @@ public class RunsService implements IRunsService {
         
         // Adding a run
         site.getRuns().add(run);
-        runDao.add(run);
+        
+        try {
+            runDao.add(run);   
+            
+        } catch ( Exception e1 ) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        
+        return run;
     }  
     
     /********* Getters / Setters  *******************************/

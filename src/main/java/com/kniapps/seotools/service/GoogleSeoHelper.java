@@ -1,4 +1,4 @@
-package com.kniapps.seotools.model.google;
+package com.kniapps.seotools.service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -50,5 +50,12 @@ public class GoogleSeoHelper {
         }
 
       }
+    
+    public static int getIndexedPages(String domain) {
+        
+        // Depreciated URI
+        String url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=" + domain;
+        
+    }
 
 }

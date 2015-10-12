@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kniapps.seotools.Tools;
 import com.kniapps.seotools.dao.IKeywordDao;
 import com.kniapps.seotools.model.Keyword;
 

@@ -52,23 +52,8 @@ public class RunsWebsiteController {
     
     @RequestMapping(value="keyword-ranking/launchRun", method=RequestMethod.POST)
     public @ResponseBody Run addRun(Model model, @RequestParam("id") long siteID){
-        
-        Run run = new Run();
-        run.setDate(new Date());
-        run.setPr(4);
-        run.setIndexedPages(4000);
-        
-
-        
-        try {
-            runsService.addRun(run,siteID);      
-            
-        } catch ( Exception e1 ) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-
-        return run;
+           
+        return runsService.launchRun(siteID);
     }
 
     public IRunsService getRunsService() {

@@ -1,4 +1,4 @@
-package com.kniapps.seotools.model.google;
+package com.kniapps.seotools.service;
 
 /**
  * Hash algorithm by Bob Jenkins, 1996.
