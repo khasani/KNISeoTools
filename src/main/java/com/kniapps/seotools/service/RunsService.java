@@ -61,17 +61,26 @@ public class RunsService implements IRunsService {
         run.setDate(new Date());
         
         // Get site PR
-        int i = GoogleSeoHelper.getPR(site.getUrl());
-        run.setPr(i);
+        int PR = GoogleSeoHelper.getPR(site.getUrl());
+        run.setPr(PR);
         
         // Get Indexed pages
-        run.setIndexedPages(4000);
+        int indexedPages = GoogleSeoHelper.getIndexedPages(site.getUrl());
+        run.setIndexedPages(indexedPages);
         
-
         
+        String sOutput="";
+        GoogleSeoHelper.getPostion( "mmorpg.fr", "mmo", "google.fr", sOutput );
+        
+        // Searching Keywords Position
         List<Keyword> list_keywords = keywordDao.findKeywords( siteID );
+        for (Keyword keyword_temp : list_keywords) {
+            
+            
+            
+        }
         
-        Position pos1 = new Position();
+        /*Position pos1 = new Position();
         pos1.setPos(10);
         //list_keywords.get( 0 ).setPosition( pos1 );
         list_keywords.get( 0 ).getPositions().add( pos1 );
@@ -95,13 +104,14 @@ public class RunsService implements IRunsService {
         // Adding a run
         site.getRuns().add(run);
         
+        // Save the run in the database
         try {
             runDao.add(run);   
             
         } catch ( Exception e1 ) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
-        }
+        }*/
         
         return run;
     }  
