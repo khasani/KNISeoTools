@@ -7,8 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 import javax.persistence.Table;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 
 @Entity
@@ -18,6 +19,7 @@ public class Position {
     private long id;
     private int pos;
     private String url;
+    @JsonIgnore
     private Run run;
     private Keyword keyword;
     

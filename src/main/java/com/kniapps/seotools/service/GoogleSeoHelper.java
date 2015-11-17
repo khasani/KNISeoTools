@@ -1,12 +1,19 @@
 package com.kniapps.seotools.service;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import com.kniapps.seotools.model.Keyword;
 
 public class GoogleSeoHelper {
   
@@ -77,10 +84,11 @@ public class GoogleSeoHelper {
         
     }
     
-    public static int getPostion(String domain, String sKeyword,String sSearchEngine, String sOutputExactURL) 
+    public static int getPostion(String domain, String sKeyword,String sSearchEngine, StringBuilder sOutputExactURL)  // Return parameter : sOutputExactURL
     {
     
         final String USER_AGENT = "Mozilla/5.0";
+        int iPos = 0;
         
         // Config Query URL
         String sSearchURL = "https://www." + sSearchEngine + "/search?";
@@ -121,48 +129,99 @@ public class GoogleSeoHelper {
         
         // Adding keyword to the query (completed)
         sSearchURL += "q=" + sKeyword;
+        String sCurrentSearchURL = sSearchURL;
         
-                
+        
         try {
             
-            URL obj = new URL(sSearchURL);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-            // optional default is GET
-            con.setRequestMethod("GET");
-
-            //add request header
-            con.setRequestProperty("User-Agent", USER_AGENT);
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            //String sResult = org.apache.commons.io.IOUtils.toString(br);
             
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-
-            //print result
-            System.out.println(response.toString());
+            // Browse the 10 first pages of Google
+            for(int i=0 ; i<10 ; i++)    
+            {            
+                
+                //String
+                URL obj = new URL(sCurrentSearchURL);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+    
+                // optional default is GET
+                con.setRequestMethod("GET");
+    
+                //add request header
+                con.setRequestProperty("User-Agent", USER_AGENT);
+    
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                //String sResult = org.apache.commons.io.IOUtils.toString(br);
+                
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+    
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+    
+                //print result
+                System.out.println(response.toString());
+      
             
-            /*String inputLine;
-            StringBuffer response = new StringBuffer();
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                // Get all the results in the current page
+                Document doc = Jsoup.parse(response.toString());
+                Elements results_a = doc.select("h3.r > a");
+                
+                // Get Position and URL
+                iPos = getURLFounded(domain, results_a, sOutputExactURL);
+                
+                if (iPos > 0)
+                {
+                    iPos = (i)*10 + iPos;
+                    
+                    break;
+                }
+                
+                // Pause
+                Thread.sleep(2000 + (int)(Math.random()*100));
+                
+                // Prepare next request
+                sCurrentSearchURL = sSearchURL + "&start=" + String.valueOf(i-1) + "0";
             }
-            in.close();*/
-
-            int i =0;
+            
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        return 1;
+        return iPos;
+        
+    }
+    
+    
+    private static int getURLFounded(String domain,Elements results_a, StringBuilder sOutputExactURL)
+    {
+        
+        int iPos = 0;
+        String sURL_found = "";
+        for (int i=0 ; i < results_a.size() ; i++) {
+            
+            // Get the URL on the local search result             
+            sURL_found = results_a.get(i).attr("href");
+            
+            // Search if the website is present in the url
+            if(sURL_found.contains(domain))
+            {
+                // Position
+                iPos = i+1;
+                
+                // Exact URL
+                sURL_found = sURL_found.substring(sURL_found.indexOf("http"), sURL_found.indexOf("&"));
+                
+                // Return StringBuilder
+                sOutputExactURL.append(sURL_found);
+                
+                break;
+            }     
+        }
+        
+        return iPos;
         
     }
 

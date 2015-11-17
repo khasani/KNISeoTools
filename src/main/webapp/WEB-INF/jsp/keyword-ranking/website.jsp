@@ -105,7 +105,7 @@
                 <h4 class="modal-title" id="myModalLabel_launch_run">Launch Run</h4>
             </div>
             
-           <div class="modal-body">
+           <div id="modal_launch_run_text" class="modal-body">
                <p>
                    <strong><span>Run in progress...</span></strong>
                </p>
@@ -187,15 +187,21 @@
             url: frm_launch_run.attr('action'),
             data: "id=" + id,
             dataType: "json",
-            success: function (data) {
+            success: function (run) {
          		            	
-            	if (data.success == true)
-            	{
-            		alert(data)  	
+            	$('#modal_launch_run_text').html("<strong><span>Results :</span></strong><br>");
+            	$('#modal_launch_run_text').append("<div>PR : <b>" + run.pr + "</b><br>");
+           		$('#modal_launch_run_text').append("Indexed pages : <b>" + run.indexedPages + "</b><br>");
+           		
+           		for(var i=0;i<run.positions.length; i++){
+           			
+           			var pos = run.positions[i];
+           			$('#modal_launch_run_text').append(pos.keyword.name + " : <b>" + pos.pos + "</b> (" + pos.url + ")<br>");
+
+           		}
+           		
+           		$('#modal_launch_run_text').append("</div>");
             		            		
-            	}else{
-            		MessageBox("KNI Seo Tools",data.message);    
-            	}
             	
             },
             error: function (xhr, ajaxOptions, thrownError) {

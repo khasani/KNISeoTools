@@ -1,5 +1,7 @@
 package com.kniapps.seotools.service;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -81,6 +83,22 @@ public class Tools {
         }
         
         return false;
+    }
+    
+    public static String getDomainName(String url){
+        URI uri;
+        String domain = null;
+        try {
+            uri = new URI(url);
+            domain = uri.getHost();
+            
+        } catch ( URISyntaxException e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        return domain.startsWith("www.") ? domain.substring(4) : domain;
+
     }
     
 }

@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -27,6 +28,7 @@ public class Run {
     private Date date;
     private int indexedPages;
     private int pr;
+    @JsonIgnore
     private Site site;
     private Set<Position> positions = new HashSet<Position>(0);
     

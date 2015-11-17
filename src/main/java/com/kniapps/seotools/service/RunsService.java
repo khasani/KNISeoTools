@@ -68,40 +68,29 @@ public class RunsService implements IRunsService {
         int indexedPages = GoogleSeoHelper.getIndexedPages(site.getUrl());
         run.setIndexedPages(indexedPages);
         
-        
-        String sOutput="";
-        GoogleSeoHelper.getPostion( "mmorpg.fr", "mmo", "google.fr", sOutput );
-        
         // Searching Keywords Position
-        List<Keyword> list_keywords = keywordDao.findKeywords( siteID );
+        String sDomain = Tools.getDomainName(site.getUrl());
+        List<Keyword> list_keywords = keywordDao.findKeywords(siteID);
         for (Keyword keyword_temp : list_keywords) {
             
+            // Get the Position
+            StringBuilder sbOutput = new StringBuilder();
+            int iPos = GoogleSeoHelper.getPostion(sDomain, keyword_temp.getName(), site.getSearchEngine().getUrl(), sbOutput);
             
+            // Create Position
+            Position pos = new Position();
+            pos.setPos(iPos);
+            keyword_temp.getPositions().add(pos);
+            pos.setKeyword(keyword_temp);
+            pos.setUrl(sbOutput.toString());
             
+            // Add Position in the Run
+            pos.setRun(run);
+            run.getPositions().add(pos);
         }
-        
-        /*Position pos1 = new Position();
-        pos1.setPos(10);
-        //list_keywords.get( 0 ).setPosition( pos1 );
-        list_keywords.get( 0 ).getPositions().add( pos1 );
-        pos1.setKeyword( list_keywords.get( 0 ) );
-        pos1.setUrl("http://test.com");
-        pos1.setRun( run );
-        
-        Position pos2 = new Position();
-        pos2.setPos(15);
-        //list_keywords.get( 1 ).setPosition( pos2 );
-        list_keywords.get( 1 ).getPositions().add( pos2 );
-        pos2.setKeyword( list_keywords.get( 1 ) );
-        pos2.setUrl("http://test.com/test2");
-        pos2.setRun( run );
-        
-        run.getPositions().add(pos1);
-        run.getPositions().add(pos2);
-        
+              
+        // Site Site to Run
         run.setSite(site);       
-        
-        // Adding a run
         site.getRuns().add(run);
         
         // Save the run in the database
@@ -111,7 +100,7 @@ public class RunsService implements IRunsService {
         } catch ( Exception e1 ) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
-        }*/
+        }
         
         return run;
     }  
