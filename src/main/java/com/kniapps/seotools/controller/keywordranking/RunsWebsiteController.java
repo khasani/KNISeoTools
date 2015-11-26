@@ -1,10 +1,14 @@
 package com.kniapps.seotools.controller.keywordranking;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
 
 
+
+
+import org.apache.velocity.runtime.directive.Foreach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +24,8 @@ import com.kniapps.seotools.model.Site;
 import com.kniapps.seotools.service.INotesService;
 import com.kniapps.seotools.service.IRunsService;
 import com.kniapps.seotools.service.IWebsitesService;
+
+import java.util.List;
 
 @Controller
 public class RunsWebsiteController {
@@ -37,13 +43,15 @@ public class RunsWebsiteController {
     public String showKeywordRankingDashboard(Model model, @RequestParam("id") long siteID){
         
         try {
-            // Get site
+            // Load site
             Site site = websiteService.loadFullSiteById(siteID);
             model.addAttribute("site", site);
             
-            // Get runs
-            /*List<Run> list_runs = runsService.findRunsLastMonth(siteID);
-            model.addAttribute("runs", list_runs);   */
+            // Get the Position List in a 2 dimentional array to show easily in JPS file
+            ArrayList<ArrayList<Object>> list = runsService.findRunsPositionsLastDays(siteID, 1500);
+            model.addAttribute("positions_array", list); 
+            
+            int i =0;
             
             
         } catch ( Exception e1 ) {
