@@ -17,27 +17,18 @@
     <div class="col-lg-12">
         <h4>Results table</h4>
         <!--  <table class="table table-striped table-bordered table-hover">-->
-        <table class="table table-striped table-bordered table-hover">
+        <table class="table table-striped table-bordered table-hover table_runs">
         	
-        	
+        	<%-- Convert returned values in arrays --%>
         	<c:set var="runs_positions" scope="session" value="${runs[2].positions.toArray()}"/>
-        	<c:set var="runs_array" scope="session" value="${runs.toArray()}"/>
-        	
         	<c:set var="positions" scope="session" value="${positions_array.toArray()}"/>
-        	
-        	
-        	
-        	${fn:length(positions[0])}
-        	
-        	<br>
-			${fn:length(positions[3])}
         	
        		<c:choose>
        			<c:when test="${fn:length(positions[0]) > 0}">
                   	
                   	<!-- Year Row -->
 					<tr class="odd gradeX">
-                  	<td>Year</td>
+                  	<td style="width: 150px;overflow: hidden;">Year</td>
                   	<c:set var="colspan" scope="session" value="1"/>
                   	<c:forEach var="i" begin="1" end="${fn:length(positions[0])-1}">
                   		<c:if test="${i < fn:length(positions[0])-1}">
@@ -87,7 +78,7 @@
 					<td>Day</td>
                   	<c:forEach var="i" begin="1" end="${fn:length(positions[0])-1}">
                    		
-                   		<td  width="20"><fmt:formatDate type="date" pattern="dd" value="${positions[0][i]}"/></td> 
+                   		<td  width="20"><a href="#" onclick="deleteRun(${notes[i].id})" title="Delete this run ?"><fmt:formatDate type="date" pattern="dd" value="${positions[0][i]}"/></a></td> 
                    		
 					</c:forEach>
 					</tr>
@@ -117,11 +108,11 @@
 					<c:forEach var="i" begin="3" end="${fn:length(positions)-1}">
 						<c:set var="position_array" scope="session" value="${positions[i]}"/>
 						<tr>
-							<td>${position_array[0]}</td>
+							<td><b>${position_array[0]}</b></td>
 							<c:forEach var="j" begin="1" end="${fn:length(position_array)-1}">
 								
 								<%--<td title="${position_array[j].url}">${position_array[j].pos}</td>--%>
-								<td title="">${not empty position_array[j].pos ? position_array[j].pos : ''}</td>
+								<td title="${not empty position_array[j].url ? position_array[j].url : ''}">${not empty position_array[j].pos ? position_array[j].pos : ''}</td>
 								
 							</c:forEach>
 						</tr>
@@ -212,6 +203,33 @@
 </div>
 <!-- /.modal -->
 
+<!-- MODAL DELETE RUN -->           
+<div style="display: none;" class="modal fade" id="modal_delete_run" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_delete_run" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form role="form" id="form_delete_run" method="POST" action="<c:url value="/keyword-ranking/deleteRun"/>">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel_delete_run">Delete run</h4>
+            </div>
+            <div class="modal-body">Are you sure to delete this run ?</div>
+            
+            <input id="delete_run_id" name="delete_run_id" type="hidden"/>
+                               	
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Delete</button>
+            </div>
+        
+        </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <!-- MODAL LAUNCH RUN -->           
 <div style="display: none;" class="modal fade" id="modal_launch_run" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_launch_run" aria-hidden="true">
     <div class="modal-dialog">
@@ -219,7 +237,7 @@
         
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel_launch_run">Launch Run</h4>
+                <h4 class="modal-title" id="myModalLabel_launch_run">Launch Run - ${site.name}</h4>
             </div>
             
            <div id="modal_launch_run_text" class="modal-body">
@@ -281,6 +299,35 @@
             ev.preventDefault();
         });
     	
+    	// Delete Run AJAX
+    	var frm_delete_run = $('#form_delete_run');
+    	frm_delete_run.submit(function (ev) {
+            $.ajax({
+                type: frm_delete_run.attr('method'),
+                url: frm_delete_run.attr('action'),
+                data: frm_delete_run.serialize(),
+                success: function (data) {
+                	
+                	if (data.success == false)
+                	{
+                		$('#modal_delete_run').modal('hide'); 
+                		MessageBox("KNI Seo Tools",data.message);              		
+                	} else {
+                		
+                		// Reload the current page
+                		location.reload();
+                	}   
+         	
+                    
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                       alert("AJAX error : " + xhr.status + thrownError);
+                }
+            });
+
+            ev.preventDefault();
+        });
+    	
     	
     });
     
@@ -289,6 +336,13 @@
     {
     	$('#delete_note_id').val(id);
     	$('#modal_delete_note').modal('show');   	
+    }
+    
+    // DELETE RUN Modal Form
+    function deleteRun(id)
+    {
+    	$('#delete_run_id').val(id);
+    	$('#modal_delete_run').modal('show');   	
     }
     
     // OPEN MODAL FORM Add Run

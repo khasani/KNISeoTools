@@ -8,5 +8,6 @@ import com.kniapps.seotools.model.Run;
 public interface IRunDao  extends GenericDao<Run, Long> {
 
     public List<Run> find(long siteID, Date date_start, Date date_end);
+    public void remove(long runID);
     
 }

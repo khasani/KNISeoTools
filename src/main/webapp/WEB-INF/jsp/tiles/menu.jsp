@@ -16,9 +16,6 @@
                             <a href="<c:url value="/keyword-ranking/websites"/>">Websites</a>
                         </li>
                         <li>
-                            <a href="<c:url value="/keyword-ranking/keywords"/>">Keywords</a>
-                        </li>
-                        <li>
                             <a href="<c:url value="/keyword-ranking/options"/>">Options</a>
                         </li>
                     </ul>

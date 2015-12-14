@@ -1,0 +1,7 @@
+/*.table_runs td:first-child {
+	text-align:left;
+}*/
+
+.table_runs td{
+	text-align:center;
+}

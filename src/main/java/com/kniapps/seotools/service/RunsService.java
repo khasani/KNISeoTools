@@ -2,13 +2,10 @@ package com.kniapps.seotools.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,21 +45,11 @@ public class RunsService implements IRunsService {
         cal.add(Calendar.DATE, -iDays);
         
         // Get data from DAO
-        List<Position> list_pos = positionDao.find(siteID, cal.getTime(), date_today);
-        
-        // Get data from DAO
         List<Run> list_run = runDao.find(siteID, cal.getTime(), date_today);
-        
-        
         List<Keyword> list_keywords = keywordDao.findKeywords(siteID);
         
-        /*for(Position pos : list)
-        {
-            //run.getPositions().size();
-            Hibernate.initialize(pos.getRun());
-        }*/
-        
-        arrayReturn = convertRunsInArray(list_run,list_pos,list_keywords);
+        // Convert data in array to be easily showed in front-end
+        arrayReturn = convertRunsInArray(list_run,list_keywords);
         
        return arrayReturn;
     }  
@@ -128,9 +115,15 @@ public class RunsService implements IRunsService {
         return run;
     }  
     
+    @Transactional
+    public void removeRun(long runID) {
+        
+        runDao.remove(runID);
+    }
+    
     /********* Format Return Data  *******************************/
     
-    private ArrayList<ArrayList<Object>> convertRunsInArray(List<Run> list_run, List<Position> list_pos,List<Keyword> list_keywords)
+    private ArrayList<ArrayList<Object>> convertRunsInArray(List<Run> list_run, List<Keyword> list_keywords)
     {
         ArrayList<ArrayList<Object>> arrayReturn = new ArrayList<ArrayList<Object>>();
         
@@ -168,24 +161,20 @@ public class RunsService implements IRunsService {
             ArrayList<Object> array_keywords = new ArrayList<Object>();
             array_keywords.add(keyword.getName());
             
-            for (Position pos : list_pos) 
+            for (Run run : list_run) 
             {
-                if(pos.getKeyword().getName().equals(keyword.getName()))
+                Set<Position> set_pos = run.getPositions();
+                Position pos_temp = null;
+                for (Position pos : set_pos) 
                 {
-                    Position pos_temp = null;
-                    for (Run run : list_run) 
+                    if(pos.getKeyword().getName().equals(keyword.getName()))
                     {
-                        if(run.getDate().equals(pos.getRun().getDate()))
-                        {
-                            pos_temp = pos;
-                            break; 
-                        }
-                        
+                        pos_temp = pos;
+                        break;
                     }
-                    
-                    array_keywords.add(pos_temp); 
-                    
+                
                 }
+                array_keywords.add(pos_temp);
             
             }
             
@@ -193,34 +182,8 @@ public class RunsService implements IRunsService {
             
         }
         
-        System.out.println(arrayReturn);
-        
-            
-            /*for (Iterator<Position> it = run.getPositions().iterator(); it.hasNext(); ) 
-            {
-                // Get the first position
-                Position pos = it.next();
-                
-                // Push filds into array : Date - PR - IndexedPages - Keyword Name - Keyword Positio - URL found
-                ArrayList<Object> array1 = new ArrayList<Object>();
-                array1.add(run.getDate());
-                array1.add(run.getIndexedPages());
-                array1.add(pos.getKeyword().getName());
-                array1.add(pos.getPos());
-                array1.add(pos.getUrl());
-                
-                sArrayReturn.add(array1);
-            }*/
-        
-        
-        // Sort the list by keyword name
-        /*Collections.sort(sArrayReturn, new Comparator<ArrayList<Object>>() {    
-            @Override
-            public int compare(ArrayList<Object> o1, ArrayList<Object> o2) {
-                return o1.get(3).compareTo(o2.get(3));
-            }               
-        });*/
-        
+        //System.out.println(arrayReturn);
+ 
         return arrayReturn; 
     }
     

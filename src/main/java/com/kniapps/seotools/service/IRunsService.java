@@ -13,4 +13,6 @@ public interface IRunsService {
     public ArrayList<ArrayList<Object>> findRunsPositionsLastDays(long siteID, int iDays);
     public Run findLastRun(long siteID);
     public Run launchRun(long siteID);
+    public void removeRun(long runID);
+    
 }

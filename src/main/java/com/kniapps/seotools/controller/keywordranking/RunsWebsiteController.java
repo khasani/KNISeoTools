@@ -8,6 +8,7 @@ import java.util.Date;
 
 
 
+
 import org.apache.velocity.runtime.directive.Foreach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ import com.kniapps.seotools.model.Site;
 import com.kniapps.seotools.service.INotesService;
 import com.kniapps.seotools.service.IRunsService;
 import com.kniapps.seotools.service.IWebsitesService;
+import com.kniapps.seotools.service.ResponseBoolean;
 
 import java.util.List;
 
@@ -50,9 +52,7 @@ public class RunsWebsiteController {
             // Get the Position List in a 2 dimentional array to show easily in JPS file
             ArrayList<ArrayList<Object>> list = runsService.findRunsPositionsLastDays(siteID, 1500);
             model.addAttribute("positions_array", list); 
-            
-            int i =0;
-            
+     
             
         } catch ( Exception e1 ) {
             // TODO Auto-generated catch block
@@ -68,6 +68,24 @@ public class RunsWebsiteController {
            
         return runsService.launchRun(siteID);
 
+    }
+    
+    @RequestMapping(value="keyword-ranking/deleteRun", method=RequestMethod.POST)
+    public @ResponseBody ResponseBoolean deleteNote(@RequestParam("delete_run_id") long runID)
+    {
+        ResponseBoolean response = new ResponseBoolean();
+        
+        try {
+            runsService.removeRun(runID);
+            response.setSuccess( true );
+        } catch ( Exception e ) {
+            // TODO Auto-generated catch block
+            response.setSuccess( false );         
+            response.setMessage( "Error when deleting selected run !" );
+            e.printStackTrace();
+        }
+        
+        return response;
     }
 
     public IRunsService getRunsService() {
