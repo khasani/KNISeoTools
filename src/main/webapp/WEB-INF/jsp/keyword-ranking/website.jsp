@@ -17,7 +17,7 @@
     <div class="col-lg-12">
         <h4>Results table</h4>
         <!--  <table class="table table-striped table-bordered table-hover">-->
-        <table class="table table-striped table-bordered table-hover table_runs">
+        <table class=" table-striped table-bordered table-hover table_runs">
         	
         	<%-- Convert returned values in arrays --%>
         	<c:set var="runs_positions" scope="session" value="${runs[2].positions.toArray()}"/>
@@ -30,10 +30,10 @@
 					<tr class="odd gradeX">
                   	<td style="width: 150px;overflow: hidden;">Year</td>
                   	<c:set var="colspan" scope="session" value="1"/>
-                  	<c:forEach var="i" begin="1" end="${fn:length(positions[0])-1}">
-                  		<c:if test="${i < fn:length(positions[0])-1}">
-         	          		<fmt:formatDate value="${positions[0][i]}" var="fmt_year1" type="date" pattern="yyyy" />
-         	          		<fmt:formatDate value="${positions[0][i+1]}" var="fmt_year2" type="date" pattern="yyyy" />
+                  	<c:forEach var="i" begin="1" end="${fn:length(positions[1])-1}">
+                  		<c:if test="${i < fn:length(positions[1])-1}">
+         	          		<fmt:formatDate value="${positions[1][i]}" var="fmt_year1" type="date" pattern="yyyy" />
+         	          		<fmt:formatDate value="${positions[1][i+1]}" var="fmt_year2" type="date" pattern="yyyy" />
          	          		<c:choose>
 	                   		 	<c:when test="${fmt_year1 == fmt_year2}">                   		 		
 	                   				<c:set var="colspan" value="${colspan+1}"/>
@@ -53,11 +53,11 @@
 					<tr class="odd gradeX">
 					<td>Month</td>
 					<c:set var="colspan" value="1"/>
-                  	<c:forEach var="i" begin="1" end="${fn:length(positions[0])-1}">
-                   		<c:if test="${i < fn:length(positions[0])-1}">
-         	          		<fmt:formatDate value="${positions[0][i]}" var="fmt_date1" type="date" pattern="yyyy.MM" />
-         	          		<fmt:formatDate value="${positions[0][i+1]}" var="fmt_date2" type="date" pattern="yyyy.MM" />
-         	          		<fmt:formatDate value="${positions[0][i]}" var="fmt_date" type="date" pattern="MM" />
+                  	<c:forEach var="i" begin="1" end="${fn:length(positions[1])-1}">
+                   		<c:if test="${i < fn:length(positions[1])-1}">
+         	          		<fmt:formatDate value="${positions[1][i]}" var="fmt_date1" type="date" pattern="yyyy.MM" />
+         	          		<fmt:formatDate value="${positions[1][i+1]}" var="fmt_date2" type="date" pattern="yyyy.MM" />
+         	          		<fmt:formatDate value="${positions[1][i]}" var="fmt_date" type="date" pattern="MM" />
          	          		<c:choose>
 	                   		 	<c:when test="${fmt_date1 == fmt_date2}">                   		 		
 	                   				<c:set var="colspan" value="${colspan+1}"/>
@@ -76,43 +76,56 @@
 					<!-- Day Row -->
 					<tr class="odd gradeX">
 					<td>Day</td>
-                  	<c:forEach var="i" begin="1" end="${fn:length(positions[0])-1}">
+                  	<c:forEach var="i" begin="1" end="${fn:length(positions[1])-1}">
                    		
-                   		<td  width="20"><a href="#" onclick="deleteRun(${notes[i].id})" title="Delete this run ?"><fmt:formatDate type="date" pattern="dd" value="${positions[0][i]}"/></a></td> 
+                   		<td class="table_runs_pos"><a href="#" onclick="deleteRun(${positions[0][i]})" title="Delete this run ?"><fmt:formatDate type="date" pattern="dd" value="${positions[1][i]}"/></a></td> 
                    		
 					</c:forEach>
 					</tr>
 					
 					<!-- PR Row -->
 					<tr class="odd gradeX">
-					<td>${positions[1][0]}</td>
-                  	<c:forEach var="i" begin="1" end="${fn:length(positions[1])-1}">
+					<td>${positions[2][0]}</td>
+                  	<c:forEach var="i" begin="1" end="${fn:length(positions[2])-1}">
                    		
-                   		<td>${positions[1][i]}</td> 
+                   		<td>${positions[2][i]}</td>
                    		
 					</c:forEach>
 					</tr>
 					
 					<!-- IndexedPages Row -->
 					<tr>
-					<td>${positions[2][0]}</td>
-                  	<c:forEach var="i" begin="1" end="${fn:length(positions[2])-1}">
+					<td>${positions[3][0]}</td>
+                  	<c:forEach var="i" begin="1" end="${fn:length(positions[3])-1}">
                    		
-                   		<td style="font-size:9px;">${positions[2][i]}</td> 
+                   		<td style="font-size:9px;">${positions[3][i]}</td> 
                    		
 					</c:forEach>
 					</tr>
 					
 					
 					<!-- Keywords Rows --> 
-					<c:forEach var="i" begin="3" end="${fn:length(positions)-1}">
+					<c:forEach var="i" begin="4" end="${fn:length(positions)-1}">
 						<c:set var="position_array" scope="session" value="${positions[i]}"/>
 						<tr>
 							<td><b>${position_array[0]}</b></td>
 							<c:forEach var="j" begin="1" end="${fn:length(position_array)-1}">
 								
-								<%--<td title="${position_array[j].url}">${position_array[j].pos}</td>--%>
-								<td title="${not empty position_array[j].url ? position_array[j].url : ''}">${not empty position_array[j].pos ? position_array[j].pos : ''}</td>
+								
+								<%-- If the Keyword position has progressed write in GREEN else write in RED --%>
+								<c:set var="color_pos" scope="session" value="#333333"/>
+								<c:if test="${j < fn:length(position_array)}">					
+									<%-- ${position_array[j].pos < position_array[j+1].pos ? color_pos = '#00b300'} --%>
+									
+									${position_array[j].pos > position_array[j+1].pos ? color_pos = '#d50000'}
+								</c:if>
+								
+								<td style="color:#333333" title="${not empty position_array[j].url ? position_array[j].url : ''}">
+									
+									${not empty position_array[j].pos ? position_array[j].pos : ''}
+									
+								</td>
+								
 								
 							</c:forEach>
 						</tr>
@@ -124,6 +137,8 @@
 			</c:choose>
         
         </table>
+        
+        <br/>
         
 	    <form role="form" id="form_launch_run" method="POST" action="<c:url value="/keyword-ranking/launchRun"/>">         	
 	    	<a class="btn btn-primary" onclick="launchRunModal(${site.id})" role="button">Launch run</a>

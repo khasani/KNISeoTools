@@ -2,6 +2,16 @@
 	text-align:left;
 }*/
 
-.table_runs td{
+.table_runs{
 	text-align:center;
+	padding-bottom:15px;
+}
+
+.table_runs td{
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+.table_runs_pos{
+	width:40px;	
 }

@@ -127,7 +127,16 @@ public class RunsService implements IRunsService {
     {
         ArrayList<ArrayList<Object>> arrayReturn = new ArrayList<ArrayList<Object>>();
         
-        // First row : Date of the run
+        // First row : Run ID
+        ArrayList<Object> array_run_id = new ArrayList<Object>();
+        array_run_id.add("ID");
+        for (Run run : list_run) 
+        {
+            array_run_id.add(run.getId());           
+        }
+        arrayReturn.add(array_run_id);
+        
+        // Second row : Date of the run
         ArrayList<Object> array_date = new ArrayList<Object>();
         array_date.add("Date");
         for (Run run : list_run) 
@@ -136,7 +145,7 @@ public class RunsService implements IRunsService {
         }
         arrayReturn.add(array_date);
         
-        // Second row : PR
+        // Third row : PR
         ArrayList<Object> array_pr = new ArrayList<Object>();
         array_pr.add("PR");
         for (Run run : list_run) 
@@ -145,7 +154,7 @@ public class RunsService implements IRunsService {
         }
         arrayReturn.add(array_pr);
         
-        // Third row : Indexed Pages
+        // 4th row : Indexed Pages
         ArrayList<Object> array_indexed = new ArrayList<Object>();
         array_indexed.add("Indexed Pages");
         for (Run run : list_run) 
